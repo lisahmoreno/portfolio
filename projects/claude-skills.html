@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Claude Code Skills — Lisa Moreno</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #FAFAF9; --surface: #FFFFFF; --text: #1C1C1E;
+      --muted: #6B7280; --border: #E5E7EB; --accent: #2563EB;
+      --accent-light: #EFF6FF; --tag-bg: #F3F4F6; --tag-text: #374151;
+    }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    nav { padding: 20px 24px; border-bottom: 1px solid var(--border); background: var(--surface); }
+    nav a { color: var(--muted); text-decoration: none; font-size: 14px; }
+    nav a:hover { color: var(--text); }
+    nav a + a::before { content: " / "; color: var(--border); margin: 0 6px; }
+    .container { max-width: 740px; margin: 0 auto; padding: 56px 24px 80px; }
+    .project-type { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+    h1 { font-size: clamp(26px, 4vw, 38px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 16px; }
+    .lede { font-size: 18px; color: var(--muted); line-height: 1.7; margin-bottom: 32px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+    .tag { background: var(--tag-bg); color: var(--tag-text); font-size: 12px; font-weight: 500; padding: 3px 9px; border-radius: 20px; }
+    .links { display: flex; gap: 12px; margin-bottom: 48px; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; text-decoration: none; background: var(--accent); color: white; }
+    .btn-ghost { background: var(--tag-bg); color: var(--tag-text); }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+    h2 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 12px; margin-top: 40px; }
+    h2:first-of-type { margin-top: 0; }
+    p { font-size: 15px; color: #374151; line-height: 1.75; margin-bottom: 16px; }
+    .placeholder { background: var(--accent-light); border: 1px dashed #BFDBFE; border-radius: 8px; padding: 20px; font-size: 14px; color: #1E40AF; line-height: 1.6; }
+    .placeholder strong { display: block; font-weight: 600; margin-bottom: 6px; }
+    ul { padding-left: 20px; margin-bottom: 16px; }
+    ul li { font-size: 15px; color: #374151; line-height: 1.75; margin-bottom: 4px; }
+
+    .skill-block {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin: 20px 0;
+      background: var(--surface);
+    }
+    .skill-block h3 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+    .skill-block p { margin-bottom: 0; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html">Lisa Moreno</a>
+    <a href="../index.html#projects">Projects</a>
+    <a>Claude Code Skills</a>
+  </nav>
+
+  <div class="container">
+
+    <div class="project-type">Tooling · AI Workflows</div>
+    <h1>Claude Code Skills — PM Workflow Automation</h1>
+    <p class="lede">Custom slash commands that encode repeatable PM workflows into AI-assisted processes with built-in guardrails.</p>
+
+    <div class="tags">
+      <span class="tag">AI Tooling</span>
+      <span class="tag">Workflow design</span>
+      <span class="tag">Claude Code</span>
+      <span class="tag">PM productivity</span>
+    </div>
+    <div class="links">
+      <a class="btn btn-ghost" href="https://github.com/lisahmoreno/showcase-skills" target="_blank">GitHub ↗</a>
+    </div>
+
+    <hr class="divider" />
+
+    <h2>What is a Claude Code skill?</h2>
+    <p>Claude Code is a terminal-based AI coding assistant. Skills are custom slash commands defined in Markdown files that give Claude a specific workflow to follow — like a playbook you can invoke on demand. When you type <code>/research-spec</code>, Claude reads the skill file and runs its multi-phase process automatically.</p>
+    <p>This is interesting from a PM perspective because it's essentially encoding process design into a tool — the same way you'd document a process for a team, except the "team member" is an AI that will follow it consistently.</p>
+
+    <h2>The two skills</h2>
+
+    <div class="skill-block">
+      <h3>/research-spec</h3>
+      <p>A multi-phase workflow for technical investigations that enforces a self-review gate before publishing anything externally (Confluence, Slack, etc.). Every claim needs a source citation. Every section gets a confidence score. The AI cannot publish until it has reviewed its own output against a checklist.</p>
+    </div>
+
+    <div class="skill-block">
+      <h3>/stakeholder-update</h3>
+      <p>A writing assistant for stakeholder communications. Applies the Pyramid Principle — lead with the key message, support with 2–5 points, add detail only where necessary. Enforces a direct, non-defensive tone and explicitly forbids common AI filler phrases.</p>
+    </div>
+
+    <h2>Why I built these</h2>
+    <div class="placeholder">
+      <strong>Write your own — suggested prompts:</strong>
+      What specific incident or frustration prompted the research-spec skill? (Mention the Confluence incident if you want — it's a good concrete story.) What was the communication problem the stakeholder-update skill was solving? How long were you using Claude Code before you realised you could extend it this way?
+    </div>
+
+    <h2>What this shows about how I work</h2>
+    <div class="placeholder">
+      <strong>Write your own — suggested prompts:</strong>
+      What does building this kind of tooling say about how you think about process? Do you see encoding workflow into tools as a PM skill? What's the connection between designing good product workflows for users and designing good AI workflows for yourself?
+    </div>
+
+    <h2>What's interesting about it as a technique</h2>
+    <div class="placeholder">
+      <strong>Write your own — suggested prompts:</strong>
+      What's the difference between prompting an AI ad hoc vs encoding that prompt into a skill? What are the limits — when does a skill become too rigid? What would you build next if you kept going with this approach?
+    </div>
+
+  </div>
+
+</body>
+</html>

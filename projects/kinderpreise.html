@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Children's Pricing UX — Lisa Moreno</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #FAFAF9; --surface: #FFFFFF; --text: #1C1C1E;
+      --muted: #6B7280; --border: #E5E7EB; --accent: #2563EB;
+      --accent-light: #EFF6FF; --tag-bg: #F3F4F6; --tag-text: #374151;
+    }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    nav { padding: 20px 24px; border-bottom: 1px solid var(--border); background: var(--surface); }
+    nav a { color: var(--muted); text-decoration: none; font-size: 14px; }
+    nav a:hover { color: var(--text); }
+    nav a + a::before { content: " / "; color: var(--border); margin: 0 6px; }
+    .container { max-width: 740px; margin: 0 auto; padding: 56px 24px 80px; }
+    .project-type { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+    h1 { font-size: clamp(26px, 4vw, 38px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 16px; }
+    .lede { font-size: 18px; color: var(--muted); line-height: 1.7; margin-bottom: 32px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+    .tag { background: var(--tag-bg); color: var(--tag-text); font-size: 12px; font-weight: 500; padding: 3px 9px; border-radius: 20px; }
+    .links { display: flex; gap: 12px; margin-bottom: 48px; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; text-decoration: none; background: var(--accent); color: white; }
+    .btn-ghost { background: var(--tag-bg); color: var(--tag-text); }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+    h2 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 12px; margin-top: 40px; }
+    h2:first-of-type { margin-top: 0; }
+    p { font-size: 15px; color: #374151; line-height: 1.75; margin-bottom: 16px; }
+    .placeholder { background: var(--accent-light); border: 1px dashed #BFDBFE; border-radius: 8px; padding: 20px; font-size: 14px; color: #1E40AF; line-height: 1.6; }
+    .placeholder strong { display: block; font-weight: 600; margin-bottom: 6px; }
+    ul { padding-left: 20px; margin-bottom: 16px; }
+    ul li { font-size: 15px; color: #374151; line-height: 1.75; margin-bottom: 4px; }
+
+    .mockup-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 24px 0;
+    }
+    .mockup-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      background: var(--surface);
+    }
+    .mockup-card .mockup-name { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+    .mockup-card .mockup-desc { font-size: 12px; color: var(--muted); }
+    .mockup-card a { display: block; margin-top: 10px; font-size: 12px; color: var(--accent); text-decoration: none; }
+    @media (max-width: 500px) { .mockup-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html">Lisa Moreno</a>
+    <a href="../index.html#projects">Projects</a>
+    <a>Children's Pricing</a>
+  </nav>
+
+  <div class="container">
+
+    <div class="project-type">UX Research · Mockups</div>
+    <h1>Children's Pricing — UX Exploration</h1>
+    <p class="lede">Four design directions for a new feature, created to align stakeholders on approach before any engineering work began.</p>
+
+    <div class="tags">
+      <span class="tag">UX Design</span>
+      <span class="tag">Prototyping</span>
+      <span class="tag">Stakeholder alignment</span>
+      <span class="tag">Hospitality</span>
+    </div>
+    <div class="links">
+      <a class="btn btn-ghost" href="https://github.com/lisahmoreno/kinderpreise-prototype" target="_blank">GitHub ↗</a>
+    </div>
+
+    <hr class="divider" />
+
+    <h2>The problem</h2>
+    <div class="placeholder">
+      <strong>Write your own — suggested prompts:</strong>
+      What was the business or user need that prompted this feature? Who asked for it — hotels, guests, internal stakeholders? What was broken or missing about the existing setup?
+    </div>
+
+    <h2>Why mockups before specs</h2>
+    <div class="placeholder">
+      <strong>Write your own — suggested prompts:</strong>
+      Why did you make mockups instead of writing a spec first? What was the disagreement or ambiguity you were trying to resolve? Who needed to see something visual to have a useful opinion?
+    </div>
+
+    <h2>The four approaches</h2>
+    <div class="mockup-grid">
+      <div class="mockup-card">
+        <div class="mockup-name">Dedicated page</div>
+        <div class="mockup-desc">A standalone page for managing all children's rate settings per hotel</div>
+        <a href="https://github.com/lisahmoreno/kinderpreise-prototype/blob/main/1_hotel_kids_page_mockup.html" target="_blank">View on GitHub ↗</a>
+      </div>
+      <div class="mockup-card">
+        <div class="mockup-name">Inline editor</div>
+        <div class="mockup-desc">Children's pricing embedded within the existing arrangement editor</div>
+        <a href="https://github.com/lisahmoreno/kinderpreise-prototype/blob/main/2_arrangement_editor_mockup.html" target="_blank">View on GitHub ↗</a>
+      </div>
+      <div class="mockup-card">
+        <div class="mockup-name">Banner prompt</div>
+        <div class="mockup-desc">A lightweight nudge to hotels who haven't set up children's rates yet</div>
+        <a href="https://github.com/lisahmoreno/kinderpreise-prototype/blob/main/3_banner_mockups.html" target="_blank">View on GitHub ↗</a>
+      </div>
+      <div class="mockup-card">
+        <div class="mockup-name">Tooltip tour</div>
+        <div class="mockup-desc">A guided walkthrough for onboarding hotels to the feature step by step</div>
+        <a href="https://github.com/lisahmoreno/kinderpreise-prototype/blob/main/4_tooltip_tour_mockup.html" target="_blank">View on GitHub ↗</a>
+      </div>
+    </div>
+
+    <h2>How I narrowed it down</h2>
+    <div class="placeholder">
+      <strong>Write your own — suggested prompts:</strong>
+      After showing these options to stakeholders, what happened? Which approach did people gravitate toward and why? Were there constraints (technical, time, hotel behaviour) that ruled options out?
+    </div>
+
+    <h2>What I learned</h2>
+    <div class="placeholder">
+      <strong>Write your own — suggested prompts:</strong>
+      What surprised you about how stakeholders reacted? Did any option you expected to win get rejected? What would you do differently in a similar exploration?
+    </div>
+
+  </div>
+
+</body>
+</html>

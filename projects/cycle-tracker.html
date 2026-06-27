@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cycle Tracker — Lisa Moreno</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #FAFAF9; --surface: #FFFFFF; --text: #1C1C1E;
+      --muted: #6B7280; --border: #E5E7EB; --accent: #2563EB;
+      --accent-light: #EFF6FF; --tag-bg: #F3F4F6; --tag-text: #374151;
+    }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    nav { padding: 20px 24px; border-bottom: 1px solid var(--border); background: var(--surface); }
+    nav a { color: var(--muted); text-decoration: none; font-size: 14px; }
+    nav a:hover { color: var(--text); }
+    nav a + a::before { content: " / "; color: var(--border); margin: 0 6px; }
+    .container { max-width: 740px; margin: 0 auto; padding: 56px 24px 80px; }
+    .project-type { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+    h1 { font-size: clamp(26px, 4vw, 38px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 16px; }
+    .lede { font-size: 18px; color: var(--muted); line-height: 1.7; margin-bottom: 32px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+    .tag { background: var(--tag-bg); color: var(--tag-text); font-size: 12px; font-weight: 500; padding: 3px 9px; border-radius: 20px; }
+    .links { display: flex; gap: 12px; margin-bottom: 48px; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; text-decoration: none; background: var(--accent); color: white; }
+    .btn-ghost { background: var(--tag-bg); color: var(--tag-text); }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+    h2 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 12px; margin-top: 40px; }
+    h2:first-of-type { margin-top: 0; }
+    p { font-size: 15px; color: #374151; line-height: 1.75; margin-bottom: 16px; }
+    .placeholder { background: var(--accent-light); border: 1px dashed #BFDBFE; border-radius: 8px; padding: 20px; font-size: 14px; color: #1E40AF; line-height: 1.6; }
+    .placeholder strong { display: block; font-weight: 600; margin-bottom: 6px; }
+    ul { padding-left: 20px; margin-bottom: 16px; }
+    ul li { font-size: 15px; color: #374151; line-height: 1.75; margin-bottom: 4px; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html">Lisa Moreno</a>
+    <a href="../index.html#projects">Projects</a>
+    <a>Cycle Tracker</a>
+  </nav>
+
+  <div class="container">
+
+    <div class="project-type">Personal Project · Web App</div>
+    <h1>Cycle Tracker</h1>
+    <p class="lede">A personal project I built because existing apps either over-collected data or buried it in subscriptions. I wanted something simple, local, and mine.</p>
+
+    <div class="tags">
+      <span class="tag">React</span>
+      <span class="tag">Vite</span>
+      <span class="tag">Recharts</span>
+      <span class="tag">Privacy-first</span>
+    </div>
+    <div class="links">
+      <a class="btn" href="https://cycle-tracker-phi.vercel.app" target="_blank">Live demo ↗</a>
+      <a class="btn btn-ghost" href="https://github.com/lisahmoreno/cycle-tracker" target="_blank">GitHub ↗</a>
+    </div>
+
+    <hr class="divider" />
+
+    <h2>Why I built it</h2>
+    <div class="placeholder">
+      <strong>Write your own — suggested prompts:</strong>
+      What problem were you trying to solve for yourself? What did existing apps get wrong — too complicated, too data-hungry, too subscription-heavy? What was the specific thing you wanted to track and why?
+    </div>
+
+    <h2>Design decisions</h2>
+    <div class="placeholder">
+      <strong>Write your own — suggested prompts:</strong>
+      Why client-side only (no backend)? What did you trade off by going that route? Why Recharts for the charts? What did you cut from v1 to keep the scope manageable?
+    </div>
+
+    <h2>What it does</h2>
+    <p>Daily log for tracking mood, energy, and symptoms over time. Recharts visualises patterns across weeks and months. A PDF export via pdf-lib lets you share data with a doctor without screenshots. Everything runs in the browser — no account, no sync, no data sent anywhere.</p>
+
+    <h2>What I'd do differently</h2>
+    <div class="placeholder">
+      <strong>Write your own — suggested prompts:</strong>
+      If you were starting over, what would you change about the tech choices, the UX, or the feature set? What did you learn about building something you use yourself?
+    </div>
+
+  </div>
+
+</body>
+</html>

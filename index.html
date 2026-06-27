@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lisa Moreno — Product Manager</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #FAFAF9;
+      --surface: #FFFFFF;
+      --text: #1C1C1E;
+      --muted: #6B7280;
+      --border: #E5E7EB;
+      --accent: #2563EB;
+      --accent-light: #EFF6FF;
+      --tag-bg: #F3F4F6;
+      --tag-text: #374151;
+      --radius: 12px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* Layout */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Nav */
+    nav {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    nav .name {
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--text);
+      text-decoration: none;
+    }
+    nav .links {
+      display: flex;
+      gap: 20px;
+    }
+    nav .links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+    }
+    nav .links a:hover { color: var(--text); }
+
+    /* Hero */
+    .hero {
+      padding: 72px 0 56px;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: var(--accent-light);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+      max-width: 700px;
+    }
+    .hero p {
+      font-size: 18px;
+      color: var(--muted);
+      max-width: 580px;
+      line-height: 1.7;
+    }
+
+    /* Section */
+    section {
+      padding: 56px 0;
+      border-top: 1px solid var(--border);
+    }
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 32px;
+    }
+
+    /* Project grid */
+    .projects {
+      display: grid;
+      gap: 20px;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: start;
+      transition: border-color 0.15s;
+    }
+    .project-card:hover { border-color: #D1D5DB; }
+
+    .project-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .project-icon {
+      font-size: 20px;
+      line-height: 1;
+    }
+    .project-type {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .project-card h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    .project-card .description {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .tag {
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 3px 9px;
+      border-radius: 20px;
+    }
+
+    .project-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+    .btn-primary:hover { background: #1D4ED8; }
+    .btn-ghost {
+      background: var(--tag-bg);
+      color: var(--tag-text);
+    }
+    .btn-ghost:hover { background: var(--border); }
+
+    .wip-badge {
+      font-size: 11px;
+      font-weight: 600;
+      color: #92400E;
+      background: #FEF3C7;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+    .live-badge {
+      font-size: 11px;
+      font-weight: 600;
+      color: #065F46;
+      background: #D1FAE5;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+    /* About */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+    .about-grid p {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .about-grid p + p { margin-top: 12px; }
+    .about-highlights { list-style: none; }
+    .about-highlights li {
+      font-size: 14px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+    }
+    .about-highlights li:first-child { border-top: 1px solid var(--border); }
+    .about-highlights .label { color: var(--muted); }
+    .about-highlights .value { font-weight: 500; color: var(--text); }
+
+    /* Footer */
+    footer {
+      padding: 32px 0;
+      border-top: 1px solid var(--border);
+    }
+    footer .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    footer .copy { font-size: 13px; color: var(--muted); }
+    footer .footer-links { display: flex; gap: 16px; }
+    footer .footer-links a {
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+    }
+    footer .footer-links a:hover { color: var(--text); }
+
+    @media (max-width: 640px) {
+      .project-card { grid-template-columns: 1fr; }
+      .project-actions { flex-direction: row; align-items: center; }
+      .about-grid { grid-template-columns: 1fr; }
+      footer .container { flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="container">
+      <a class="name" href="#">Lisa Moreno</a>
+      <div class="links">
+        <a href="#projects">Projects</a>
+        <a href="#about">About</a>
+        <a href="mailto:lisahmoreno@gmail.com">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <div class="hero">
+      <div class="hero-tag">Product Manager</div>
+      <h1>Building products at the intersection of hospitality and technology.</h1>
+      <p>I work on digital products that help hotels and guests connect. Here are some side projects and prototypes I've built to explore ideas beyond my day job.</p>
+    </div>
+
+    <section id="projects">
+      <div class="section-label">Projects</div>
+      <div class="projects">
+
+        <!-- AI Hotel Scanner -->
+        <div class="project-card">
+          <div>
+            <div class="project-meta">
+              <span class="project-icon">🔍</span>
+              <span class="project-type">Prototype · AI / Automation</span>
+            </div>
+            <h3>AI Hotel Attribute Scanner</h3>
+            <p class="description">A tool that crawls hotel websites and uses Claude AI to automatically detect which amenities a hotel has — sorted by confidence level. Built to explore whether AI can reduce manual data entry in hospitality content management.</p>
+            <div class="tags">
+              <span class="tag">Claude API</span>
+              <span class="tag">Node.js</span>
+              <span class="tag">Serverless</span>
+              <span class="tag">Hospitality</span>
+            </div>
+          </div>
+          <div class="project-actions">
+            <span class="live-badge">Live</span>
+            <a class="btn btn-primary" href="projects/ai-hotel-scanner.html">Read case study</a>
+            <a class="btn btn-ghost" href="https://ai-hotel-attributes-lisahmoreno-7370s-projects.vercel.app" target="_blank">Live demo ↗</a>
+            <a class="btn btn-ghost" href="https://github.com/lisahmoreno/ai-hotel-attributes" target="_blank">GitHub ↗</a>
+          </div>
+        </div>
+
+        <!-- Children's Pricing -->
+        <div class="project-card">
+          <div>
+            <div class="project-meta">
+              <span class="project-icon">🧩</span>
+              <span class="project-type">UX Research · Mockups</span>
+            </div>
+            <h3>Children's Pricing — UX Exploration</h3>
+            <p class="description">Four HTML mockups exploring different UI approaches for adding children's pricing to a hotel extranet product. Created to align stakeholders on design direction before committing to a solution.</p>
+            <div class="tags">
+              <span class="tag">UX Design</span>
+              <span class="tag">Prototyping</span>
+              <span class="tag">Stakeholder alignment</span>
+              <span class="tag">Hospitality</span>
+            </div>
+          </div>
+          <div class="project-actions">
+            <a class="btn btn-primary" href="projects/kinderpreise.html">Read case study</a>
+            <a class="btn btn-ghost" href="https://github.com/lisahmoreno/kinderpreise-prototype" target="_blank">GitHub ↗</a>
+          </div>
+        </div>
+
+        <!-- Cycle Tracker -->
+        <div class="project-card">
+          <div>
+            <div class="project-meta">
+              <span class="project-icon">📊</span>
+              <span class="project-type">Personal Project · Web App</span>
+            </div>
+            <h3>Cycle Tracker</h3>
+            <p class="description">A personal lifestyle diary app for tracking daily wellbeing, symptoms, and patterns over time. Features charts, PDF export, and runs fully client-side with no data stored externally.</p>
+            <div class="tags">
+              <span class="tag">React</span>
+              <span class="tag">Vite</span>
+              <span class="tag">Recharts</span>
+              <span class="tag">Privacy-first</span>
+            </div>
+          </div>
+          <div class="project-actions">
+            <span class="live-badge">Live</span>
+            <a class="btn btn-primary" href="projects/cycle-tracker.html">Read case study</a>
+            <a class="btn btn-ghost" href="https://cycle-tracker-phi.vercel.app" target="_blank">Live demo ↗</a>
+            <a class="btn btn-ghost" href="https://github.com/lisahmoreno/cycle-tracker" target="_blank">GitHub ↗</a>
+          </div>
+        </div>
+
+        <!-- Claude Code Skills -->
+        <div class="project-card">
+          <div>
+            <div class="project-meta">
+              <span class="project-icon">⚙️</span>
+              <span class="project-type">Tooling · AI Workflows</span>
+            </div>
+            <h3>Claude Code Skills — PM Workflow Automation</h3>
+            <p class="description">Custom slash commands for Claude Code that encode repeatable PM workflows: structured research with mandatory self-review gates, and stakeholder communication templates that enforce the Pyramid Principle.</p>
+            <div class="tags">
+              <span class="tag">AI Tooling</span>
+              <span class="tag">Workflow design</span>
+              <span class="tag">Claude Code</span>
+              <span class="tag">PM productivity</span>
+            </div>
+          </div>
+          <div class="project-actions">
+            <a class="btn btn-primary" href="projects/claude-skills.html">Read case study</a>
+            <a class="btn btn-ghost" href="https://github.com/lisahmoreno/showcase-skills" target="_blank">GitHub ↗</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="section-label">About</div>
+      <div class="about-grid">
+        <div>
+          <p>I'm a product manager with a background in the travel and hospitality industry. I've spent several years working on B2B tools that help hotels manage their digital presence — content, pricing, and distribution.</p>
+          <p>I'm drawn to the messy, operational side of digital products: the workflows people actually use every day, and the data quality problems that sit underneath them. The projects here are my experiments with AI-assisted approaches to those problems.</p>
+          <p>Currently looking for my next role in product management, ideally at a company working on B2B SaaS, marketplace, or AI-adjacent products.</p>
+        </div>
+        <div>
+          <ul class="about-highlights">
+            <li><span class="label">Focus</span><span class="value">B2B SaaS · Marketplaces · AI tools</span></li>
+            <li><span class="label">Background</span><span class="value">Travel & hospitality tech</span></li>
+            <li><span class="label">Location</span><span class="value">Germany (open to remote)</span></li>
+            <li><span class="label">Languages</span><span class="value">German · English</span></li>
+            <li><span class="label">Email</span><span class="value"><a href="mailto:lisahmoreno@gmail.com" style="color: var(--accent); text-decoration: none;">lisahmoreno@gmail.com</a></span></li>
+            <li><span class="label">GitHub</span><span class="value"><a href="https://github.com/lisahmoreno" target="_blank" style="color: var(--accent); text-decoration: none;">github.com/lisahmoreno</a></span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    <div class="container">
+      <span class="copy">Lisa Moreno · Product Manager</span>
+      <div class="footer-links">
+        <a href="https://github.com/lisahmoreno" target="_blank">GitHub</a>
+        <a href="mailto:lisahmoreno@gmail.com">Email</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
