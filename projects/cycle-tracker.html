@@ -29,10 +29,45 @@
     h2 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 12px; margin-top: 40px; }
     h2:first-of-type { margin-top: 0; }
     p { font-size: 15px; color: #374151; line-height: 1.75; margin-bottom: 16px; }
-    .placeholder { background: var(--accent-light); border: 1px dashed #BFDBFE; border-radius: 8px; padding: 20px; font-size: 14px; color: #1E40AF; line-height: 1.6; }
-    .placeholder strong { display: block; font-weight: 600; margin-bottom: 6px; }
     ul { padding-left: 20px; margin-bottom: 16px; }
-    ul li { font-size: 15px; color: #374151; line-height: 1.75; margin-bottom: 4px; }
+    ul li { font-size: 15px; color: #374151; line-height: 1.75; margin-bottom: 6px; }
+
+    .callout {
+      background: #F9FAFB;
+      border-left: 3px solid #D1D5DB;
+      padding: 16px 20px;
+      border-radius: 0 8px 8px 0;
+      margin: 24px 0;
+    }
+    .callout p { margin-bottom: 0; font-style: italic; color: var(--muted); }
+
+    .edit-note {
+      background: #FFFBEB;
+      border: 1px dashed #FCD34D;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: 13px;
+      color: #92400E;
+      margin: 20px 0;
+    }
+    .edit-note strong { display: block; margin-bottom: 4px; }
+
+    .feature-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .feature-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-size: 14px;
+    }
+    .feature-item .feature-title { font-weight: 600; margin-bottom: 2px; }
+    .feature-item .feature-desc { color: var(--muted); font-size: 13px; }
+    @media (max-width: 500px) { .feature-list { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -47,7 +82,7 @@
 
     <div class="project-type">Personal Project · Web App</div>
     <h1>Cycle Tracker</h1>
-    <p class="lede">A personal project I built because existing apps either over-collected data or buried it in subscriptions. I wanted something simple, local, and mine.</p>
+    <p class="lede">A daily tracking app I built for myself — designed around cycle-phase awareness and nervous system regulation, with no data leaving your device.</p>
 
     <div class="tags">
       <span class="tag">React</span>
@@ -63,24 +98,66 @@
     <hr class="divider" />
 
     <h2>Why I built it</h2>
-    <div class="placeholder">
-      <strong>Write your own — suggested prompts:</strong>
-      What problem were you trying to solve for yourself? What did existing apps get wrong — too complicated, too data-hungry, too subscription-heavy? What was the specific thing you wanted to track and why?
+
+    <p>I started reading about cycle-phase nutrition and training a while ago — the idea that energy levels, stress tolerance, and recovery needs aren't constant across the month but follow a predictable hormonal pattern across the four cycle phases. Most tracking apps either ignore this entirely (basic period trackers) or get so elaborate they become a full-time job (symptom logs with dozens of fields and subscription paywalls).</p>
+
+    <p>I wanted something specific: a daily diary that asks exactly the questions I care about and nothing else, stores data locally, and shows me patterns over time. After looking at what was available, I decided it was faster to build it than to compromise on a generic tool.</p>
+
+    <div class="edit-note">
+      <strong>Edit this</strong>
+      Add your personal motivation if you want — what specifically prompted this? A book, a health issue, a conversation? The more specific the origin story, the more memorable it is.
     </div>
 
-    <h2>Design decisions</h2>
-    <div class="placeholder">
-      <strong>Write your own — suggested prompts:</strong>
-      Why client-side only (no backend)? What did you trade off by going that route? Why Recharts for the charts? What did you cut from v1 to keep the scope manageable?
+    <h2>What it tracks</h2>
+
+    <p>Seven sections, designed to build a picture of how energy, stress, recovery, and physical signals interact across the cycle:</p>
+
+    <div class="feature-list">
+      <div class="feature-item">
+        <div class="feature-title">Cycle phase + energy</div>
+        <div class="feature-desc">Current phase (menstruation/follicular/ovulation/luteal), cycle day, overall energy level</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-title">Stress across the day</div>
+        <div class="feature-desc">Morning, midday, and evening stress levels separately — plus a free-text main stressor field</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-title">Sleep</div>
+        <div class="feature-desc">Sleep/wake time (duration auto-calculated), quality rating, restlessness flag</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-title">Movement</div>
+        <div class="feature-desc">Type and duration, plus whether the exercise felt energising or depleting</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-title">Nervous system</div>
+        <div class="feature-desc">What contributed to calming down: breathing, nature, alone time, social connection, etc.</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-title">Physical signals</div>
+        <div class="feature-desc">Exhaustion, irritability, concentration, PMS symptoms, inner restlessness</div>
+      </div>
     </div>
 
-    <h2>What it does</h2>
-    <p>Daily log for tracking mood, energy, and symptoms over time. Recharts visualises patterns across weeks and months. A PDF export via pdf-lib lets you share data with a doctor without screenshots. Everything runs in the browser — no account, no sync, no data sent anywhere.</p>
+    <p>The last section is a single free-text reflection: "What did my body show me today?" — kept deliberately short to stay sustainable.</p>
+
+    <h2>Design decisions worth explaining</h2>
+
+    <p><strong>Stress tracked at three points in the day, not averaged.</strong> A single "stress level today" question loses information. Knowing stress was low in the morning but spiked in the evening is different from knowing it was medium all day. This granularity cost one extra UI section but adds meaningful pattern data.</p>
+
+    <p><strong>Movement quality, not just quantity.</strong> Tracking "did the exercise feel energising or depleting" is more useful than duration alone — especially in the context of cycle phases, where the same workout can feel fine in one phase and exhausting in another. This is a data point most fitness apps don't collect.</p>
+
+    <p><strong>Fully client-side, no account.</strong> Health data about menstrual cycles is sensitive. Removing the backend entirely means there's nothing to breach, no terms of service to read, and no subscription to forget to cancel. All data lives in browser localStorage. The PDF export was specifically added so you can share relevant data with a doctor without screenshots.</p>
+
+    <div class="callout">
+      <p>Building for yourself is a different discipline than building for users. You can skip the user research and skip the edge cases you'll never hit — but you also don't get the forcing function of someone else's confusion. The things I found myself avoiding (the reflection field, filling in the stress sliders) were useful signals about what the daily friction points actually were.</p>
+    </div>
 
     <h2>What I'd do differently</h2>
-    <div class="placeholder">
-      <strong>Write your own — suggested prompts:</strong>
-      If you were starting over, what would you change about the tech choices, the UX, or the feature set? What did you learn about building something you use yourself?
+
+    <div class="edit-note">
+      <strong>Edit this section</strong>
+      What actually annoyed you about using it? Did you end up skipping any fields regularly? Were there things you wished you'd tracked but didn't include? Did the charts surface anything useful? This is the most interesting part from a product-thinking angle.
     </div>
 
   </div>
