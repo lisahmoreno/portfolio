@@ -1,0 +1,210 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #FAF8F5;
+  --bg-warm: #F5F0E8;
+  --surface: #FFFFFF;
+  --text: #1A1714;
+  --muted: #6B6560;
+  --border: #E8E2D8;
+  --accent: #C4622D;
+  --accent-light: #FDF2EC;
+  --accent-dark: #A04E22;
+  --tag-bg: #F0EBE3;
+  --tag-text: #4A4440;
+  --radius: 14px;
+  --shadow: 0 1px 2px rgba(30,20,10,0.06), 0 4px 16px rgba(30,20,10,0.07);
+}
+
+body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* Nav (case study breadcrumb) */
+nav {
+  padding: 18px 28px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  transition: color 0.15s;
+}
+nav a:hover { color: var(--text); }
+nav a + a::before { content: " / "; color: var(--border); margin: 0 8px; }
+
+/* Container */
+.container {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 60px 28px 96px;
+}
+
+/* Project header */
+.project-type {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+h1 {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: clamp(28px, 4.5vw, 42px);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-bottom: 18px;
+  color: var(--text);
+}
+.lede {
+  font-size: 18px;
+  color: var(--muted);
+  line-height: 1.75;
+  margin-bottom: 32px;
+  font-weight: 300;
+}
+
+/* Tags */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.tag {
+  background: var(--tag-bg);
+  color: var(--tag-text);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.01em;
+}
+
+/* Buttons */
+.links {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 52px;
+  flex-wrap: wrap;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 9px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  font-family: 'DM Sans', sans-serif;
+  transition: background 0.15s;
+}
+.btn { background: var(--accent); color: white; }
+.btn:hover { background: var(--accent-dark); }
+.btn-ghost { background: var(--tag-bg); color: var(--tag-text); }
+.btn-ghost:hover { background: var(--border); }
+
+/* Divider */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 44px 0;
+}
+
+/* Section headings */
+h2 {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  margin-bottom: 14px;
+  margin-top: 44px;
+  color: var(--text);
+}
+h2:first-of-type { margin-top: 0; }
+
+/* Body text */
+p {
+  font-size: 15px;
+  color: #4A4440;
+  line-height: 1.8;
+  margin-bottom: 16px;
+  font-weight: 300;
+}
+ul {
+  padding-left: 20px;
+  margin-bottom: 16px;
+}
+ul li {
+  font-size: 15px;
+  color: #4A4440;
+  line-height: 1.8;
+  margin-bottom: 6px;
+  font-weight: 300;
+}
+
+/* Callout */
+.callout {
+  background: var(--bg-warm);
+  border-left: 3px solid var(--accent);
+  padding: 18px 22px;
+  border-radius: 0 10px 10px 0;
+  margin: 28px 0;
+}
+.callout p {
+  margin-bottom: 0;
+  font-style: italic;
+  color: var(--muted);
+}
+
+/* Edit note */
+.edit-note {
+  background: #FFFBEB;
+  border: 1px dashed #FCD34D;
+  border-radius: 10px;
+  padding: 14px 18px;
+  font-size: 13px;
+  color: #92400E;
+  margin: 20px 0;
+}
+.edit-note strong {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+/* Placeholder (for sections not yet written) */
+.placeholder {
+  background: var(--accent-light);
+  border: 1px dashed #E8B49A;
+  border-radius: 10px;
+  padding: 20px;
+  font-size: 14px;
+  color: var(--accent-dark);
+  line-height: 1.65;
+}
+.placeholder strong {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+code {
+  background: var(--tag-bg);
+  color: var(--accent-dark);
+  font-size: 13px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+}

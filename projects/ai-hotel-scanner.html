@@ -3,72 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Hotel Attribute Scanner — Lisa Moreno</title>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --bg: #FAFAF9; --surface: #FFFFFF; --text: #1C1C1E;
-      --muted: #6B7280; --border: #E5E7EB; --accent: #2563EB;
-      --accent-light: #EFF6FF; --tag-bg: #F3F4F6; --tag-text: #374151;
-      --radius: 12px;
-    }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-    nav { padding: 20px 24px; border-bottom: 1px solid var(--border); background: var(--surface); }
-    nav a { color: var(--muted); text-decoration: none; font-size: 14px; }
-    nav a:hover { color: var(--text); }
-    nav a + a::before { content: " / "; color: var(--border); margin: 0 6px; }
-    .container { max-width: 740px; margin: 0 auto; padding: 56px 24px 80px; }
-    .project-type { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
-    h1 { font-size: clamp(26px, 4vw, 38px); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 16px; }
-    .lede { font-size: 18px; color: var(--muted); line-height: 1.7; margin-bottom: 32px; }
-    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
-    .tag { background: var(--tag-bg); color: var(--tag-text); font-size: 12px; font-weight: 500; padding: 3px 9px; border-radius: 20px; }
-    .links { display: flex; gap: 12px; margin-bottom: 48px; flex-wrap: wrap; }
-    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; text-decoration: none; background: var(--accent); color: white; }
-    .btn-ghost { background: var(--tag-bg); color: var(--tag-text); }
-    .divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
-    h2 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 12px; margin-top: 40px; }
-    h2:first-of-type { margin-top: 0; }
-    p { font-size: 15px; color: #374151; line-height: 1.75; margin-bottom: 16px; }
-    ul { padding-left: 20px; margin-bottom: 16px; }
-    ul li { font-size: 15px; color: #374151; line-height: 1.75; margin-bottom: 6px; }
-
-    .callout {
-      background: #F9FAFB;
-      border-left: 3px solid #D1D5DB;
-      padding: 16px 20px;
-      border-radius: 0 8px 8px 0;
-      margin: 24px 0;
-    }
-    .callout p { margin-bottom: 0; font-style: italic; color: var(--muted); }
-
-    .edit-note {
-      background: #FFFBEB;
-      border: 1px dashed #FCD34D;
-      border-radius: 8px;
-      padding: 14px 18px;
-      font-size: 13px;
-      color: #92400E;
-      margin: 20px 0;
-    }
-    .edit-note strong { display: block; margin-bottom: 4px; }
-
-    .outcome-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin: 20px 0;
-    }
-    .outcome-card {
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 16px;
-      background: var(--surface);
-    }
-    .outcome-card .label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 4px; }
-    .outcome-card .value { font-size: 15px; font-weight: 600; }
-    @media (max-width: 500px) { .outcome-grid { grid-template-columns: 1fr; } }
-  </style>
+  <title>AI Hotel Attribute Scanner — Lisa Hübner Moreno</title>
+  <link rel="stylesheet" href="../style.css" />
 </head>
 <body>
 
@@ -99,74 +35,48 @@
 
     <h2>The problem</h2>
 
-    <p>Hotel booking platforms live and die on data quality. When a guest searches for hotels with an indoor pool or a Finnish sauna, the platform needs to know which hotels actually have those things — and that information has to be kept up to date as hotels change their offerings.</p>
+    <p>Hotel booking platforms depend on accurate attribute data — when a guest filters for "Finnish sauna" or "indoor pool", the platform needs to know which hotels actually have those things. The standard approach is asking hotels to fill in an extranet form. In practice: incomplete profiles, missed fields, and content teams spending hours manually checking hotel websites to fill the gaps.</p>
 
-    <p>The traditional approach is to ask hotels to fill in their own attributes through an extranet form. In practice, this means a lot of incomplete profiles: hotels that don't log in, hotels that miss the new fields, hotels that tick "sauna" without specifying what type. Content teams then spend time manually looking up hotels and filling in gaps.</p>
-
-    <div class="edit-note">
-      <strong>Edit this section</strong>
-      Add specific context if you want: how many hotels, how often attributes need updating, how much time content review actually takes. Concrete numbers make this more credible.
-    </div>
-
-    <h2>What I wanted to test</h2>
-
-    <p>The hypothesis was simple: hotel websites already contain most of the attribute information we need. A hotel that has a Finnish sauna will almost certainly mention it somewhere on their site — usually on a wellness page, in a room description, or in an FAQ. If an AI can read those pages and reliably extract structured data, we could at minimum pre-fill the attribute form for hotels, or flag gaps in existing profiles for review.</p>
-
-    <p>I wanted to test two things:</p>
-    <ul>
-      <li>Could an AI reliably distinguish between a hotel that explicitly mentions "Finnish sauna" and one that just says "wellness area" (which tells you nothing)?</li>
-      <li>Would the confidence split (high vs. needs review) be calibrated well enough to be useful — i.e., could you trust the high-confidence results without checking them manually?</li>
-    </ul>
-
-    <h2>Approaches I considered</h2>
-
-    <p>The obvious alternative to AI is rule-based web scraping — search for keywords like "sauna", "pool", "WiFi" across the page text. This is cheap and fast, but it misses synonyms, multilingual content, and context. "Wellness area" won't match "sauna" even when the page later mentions one. You also can't distinguish "indoor pool" from "outdoor pool" or "pool bar" without more complex NLP.</p>
-
-    <p>I considered a crowdsourced approach — ask hotels to verify AI-generated suggestions rather than fill in blank forms — but that still requires the hotel to take action. The goal was to reduce the burden on hotels, not just change the interaction pattern.</p>
-
-    <p>A supervised ML model trained on labelled hotel descriptions was another option, but that requires a labelled dataset we don't have and significant infrastructure to train and maintain. For a prototype, an LLM is the faster and more flexible path.</p>
+    <p>The hypothesis: hotel websites already contain most of this information. If an AI can reliably extract structured attribute data from a crawl, you could at minimum pre-fill the form for hotels — or flag stale profiles for review.</p>
 
     <div class="edit-note">
-      <strong>Edit this section</strong>
-      If you evaluated other approaches at work (structured data providers, hotel APIs, partnerships), add them here. Also worth noting: did engineering have concerns about the AI approach that influenced how you framed it?
+      <strong>Add your numbers here</strong>
+      How many hotels? How often do attributes need updating? How much time does manual content review take? Concrete numbers make the problem land.
     </div>
 
-    <h2>How the prototype works</h2>
+    <h2>How it works</h2>
 
-    <p>The tool takes a hotel website URL, crawls the main page and up to 8 relevant subpages (wellness, rooms, dining, FAQ, contact, etc.), strips navigation and boilerplate, and sends the extracted text to Claude with a structured list of ~90 known attribute types.</p>
+    <p>The tool takes a hotel URL, crawls the main page and up to 8 relevant subpages (wellness, rooms, dining, FAQ, etc.), strips boilerplate, and sends the text to Claude with a structured list of ~90 attribute types.</p>
 
-    <p>Claude returns each attribute it finds as either <strong>high confidence</strong> (explicitly mentioned, with a direct quote as evidence) or <strong>needs review</strong> (implied or ambiguous). Attributes not found at all are left unchecked.</p>
-
-    <p>The confidence split matters for the workflow: high-confidence items could reasonably be auto-applied, while the "needs review" pile gets a human look. This keeps the process fast without fully removing oversight.</p>
+    <p>Claude returns each attribute as either <strong>high confidence</strong> (explicitly mentioned, with a quote as evidence) or <strong>needs review</strong> (implied or ambiguous). High-confidence results could be auto-applied; the needs-review pile gets a human look. The confidence split is what makes this workflow-useful rather than just a novelty.</p>
 
     <div class="callout">
-      <p>One design decision I spent time on: the AI had to be told explicitly that a wellness area name (e.g. "Wellness Oasis") is not evidence for specific facilities. Without that instruction, it would confidently report a Finnish sauna just because the hotel had a nice-sounding spa name. Getting the prompt right to avoid this kind of false positive was the main calibration challenge.</p>
+      <p>The trickiest prompt engineering: telling the AI that a wellness area <em>name</em> ("Wellness Oasis") is not evidence for specific facilities. Without that instruction, it would confidently flag a Finnish sauna just because the hotel had an evocative spa name. Getting calibration right — especially for false positives — was the main technical challenge.</p>
     </div>
 
     <h2>What I learned</h2>
 
-    <p>The AI is genuinely good at the task when the website content is explicit — it picks up specific mentions reliably and the evidence quotes make it easy to verify. It's much weaker when hotels are vague or use marketing language ("state-of-the-art wellness facilities") instead of plain descriptions. Which, unfortunately, is very common.</p>
+    <p>The AI works well when hotel websites are specific. It's much weaker against marketing language — "state-of-the-art wellness facilities" tells you nothing. Which is unfortunately common. The confidence split helped: high-confidence results held up, and the needs-review pile correctly flagged the ambiguous cases.</p>
 
-    <p>The confidence calibration worked better than I expected. High-confidence results were mostly correct; the needs-review pile appropriately flagged edge cases. But "accuracy" is hard to define here — the ground truth is what the hotel actually has, not what they say on their website, and those aren't always the same.</p>
+    <p>One thing "accuracy" doesn't capture: the ground truth is what the hotel <em>has</em>, not what they say on their site. Those don't always match. That gap matters more for high-stakes attributes (accessibility, allergy-friendly) and would need tighter calibration — or a permanent human-review requirement — before going to production.</p>
 
     <div class="edit-note">
-      <strong>Edit this section</strong>
-      Did you run the tool on real hotels and check the results? If so, what did you find? Any surprising misses or false positives? This is where a specific example would make the case study much more memorable.
+      <strong>Add a concrete example here</strong>
+      Did you run it on real hotels? A specific hit or miss would make this section memorable.
     </div>
 
-    <h2>What would need to happen to take this further</h2>
+    <h2>What would come next</h2>
 
-    <p>The prototype proves the concept works at the individual hotel level. Taking it to production would require:</p>
     <ul>
-      <li><strong>Scale testing</strong> — does quality hold up across hundreds of hotels in different languages and website styles?</li>
-      <li><strong>Feedback loop</strong> — if hotels or content teams correct an AI suggestion, that correction should inform future scans of the same hotel</li>
-      <li><strong>Change detection</strong> — the useful version isn't a one-time scan but an ongoing monitor that flags when a hotel's website suggests their attributes have changed</li>
-      <li><strong>Legal/accuracy liability</strong> — attributes like accessibility features or allergy-friendly rooms have real consequences if wrong. The tool's confidence system would need tighter calibration for these, or they'd need to stay human-reviewed always</li>
+      <li><strong>Scale testing</strong> — does quality hold across hundreds of hotels in different languages?</li>
+      <li><strong>Change detection</strong> — the useful version monitors for when a hotel's website changes, not just a one-time scan</li>
+      <li><strong>Feedback loop</strong> — corrections from hotels or content teams should inform future scans</li>
+      <li><strong>Liability tier</strong> — accessibility and allergy attributes need stricter treatment than "pet-friendly"</li>
     </ul>
 
     <div class="edit-note">
-      <strong>Edit this section</strong>
-      Add anything you know about internal appetite for this — was there stakeholder interest? Engineering pushback? A related initiative this could connect to? That context makes it feel like real product thinking rather than a side project.
+      <strong>Internal context</strong>
+      Was there stakeholder interest in this? Engineering feedback? A related initiative it connects to? That makes it read as product thinking, not just a side project.
     </div>
 
   </div>
