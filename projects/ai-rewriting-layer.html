@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Rewriting Layer — Lisa Hübner Moreno</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .pipeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin: 24px 0 32px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .pipeline-step {
+      display: grid;
+      grid-template-columns: 28px 1fr auto;
+      gap: 14px;
+      align-items: start;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .pipeline-step:last-child { border-bottom: none; }
+    .pipeline-step.shipped { background: var(--surface); }
+    .pipeline-step.concept { background: var(--bg); }
+    .step-num {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      padding-top: 2px;
+      font-variant-numeric: tabular-nums;
+    }
+    .step-body .step-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+    .step-body .step-desc {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.55;
+    }
+    .step-badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 20px;
+      white-space: nowrap;
+      margin-top: 2px;
+    }
+    .badge-shipped {
+      background: #D1FAE5;
+      color: #1A6645;
+    }
+    .badge-concept {
+      background: #F0EBE3;
+      color: #6B6560;
+    }
+
+    .example-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 22px;
+      margin: 14px 0;
+    }
+    .example-block .ex-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .example-block .ex-row {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 8px 14px;
+      font-size: 13px;
+      margin-bottom: 6px;
+      align-items: baseline;
+    }
+    .example-block .ex-row:last-child { margin-bottom: 0; }
+    .example-block .ex-key {
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding-top: 1px;
+    }
+    .example-block .ex-val {
+      color: var(--text);
+      font-weight: 300;
+      line-height: 1.6;
+    }
+    .example-block .ex-val em {
+      font-style: normal;
+      color: var(--muted);
+    }
+
+    @media (max-width: 500px) {
+      .pipeline-step { grid-template-columns: 22px 1fr; }
+      .step-badge { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html">Lisa Hübner Moreno</a>
+    <a href="../index.html#projects">Projects</a>
+    <a>AI Rewriting Layer</a>
+  </nav>
+
+  <div class="container">
+
+    <div class="project-type">AI Engineering · SEO · Content at Scale</div>
+    <h1>AI Rewriting Layer — Duplicate-Content Avoidance</h1>
+    <p class="lede">After a platform migration left two consumer portals serving identical offer texts, Google started treating them as duplicate content. I designed the fix and built it — a compound AI backend service that automatically rewrites content to make it unique, with guard layers to prevent hallucination and a swappable provider layer so the model is a config change, not a code change.</p>
+
+    <div class="tags">
+      <span class="tag">PHP · Symfony</span>
+      <span class="tag">Multi-provider AI</span>
+      <span class="tag">SEO</span>
+      <span class="tag">Compound AI</span>
+      <span class="tag">Shipped</span>
+    </div>
+    <div class="links">
+      <a class="btn" href="https://github.com/lisahmoreno/ai-rewriting-layer" target="_blank">GitHub ↗</a>
+    </div>
+
+    <hr class="divider" />
+
+    <h2>The problem</h2>
+
+    <p>After the OneExtranet migration, two consumer portals — KMW and KU — were both serving the same offer texts: identical titles, identical descriptions, same phrasing. Google treats this as duplicate content, which creates an SEO risk across both portals and puts search-driven revenue at stake.</p>
+
+    <p>The fix: an automated rewriting layer that generates unique text for KU, keeping KMW as the master and KU as the AI-rewritten version. The requirement wasn't to produce better text — it was to produce <em>different</em> text that preserved all the original facts, respected SEO constraints, and was safe enough to go live without a human reviewing every line.</p>
+
+    <h2>What I built</h2>
+
+    <p>A compound AI backend service in PHP/Symfony — not a script that calls an LLM. The shipped slice rewrites offer texts (title + intro paragraph) for the KU portal.</p>
+
+    <div class="pipeline">
+      <div class="pipeline-step shipped">
+        <span class="step-num">1</span>
+        <div class="step-body">
+          <div class="step-name">Context enrichment</div>
+          <div class="step-desc">Hotel name, city, region, and detected amenities injected into the prompt before generation.</div>
+        </div>
+        <span class="step-badge badge-shipped">Shipped</span>
+      </div>
+      <div class="pipeline-step shipped">
+        <span class="step-num">2</span>
+        <div class="step-body">
+          <div class="step-name">Generation — swappable LLM provider</div>
+          <div class="step-desc">One interface, three providers (OpenAI, Anthropic, Gemini) — chosen by config. Model changes don't touch the pipeline. SEO- and brand-tuned German system prompt: title ≤35 chars with location, intro 200–500 chars with key keywords in the first 155, KU tone of voice, no prices, no invented features.</div>
+        </div>
+        <span class="step-badge badge-shipped">Shipped</span>
+      </div>
+      <div class="pipeline-step shipped">
+        <span class="step-num">3</span>
+        <div class="step-body">
+          <div class="step-name">Rule-based validation + self-correction loop</div>
+          <div class="step-desc">Length limits, required fields, hotel-name-not-in-title. If validation fails, the errors are fed back to the model as a correction prompt and it retries once — temperature drops from 0.7 to 0.3 on the second attempt.</div>
+        </div>
+        <span class="step-badge badge-shipped">Shipped</span>
+      </div>
+      <div class="pipeline-step shipped">
+        <span class="step-num">4</span>
+        <div class="step-body">
+          <div class="step-name">Two guard layers</div>
+          <div class="step-desc">Content guard: term blocklist + OpenAI moderation API. Semantic/fact-check guard: flags any amenity (pool, sauna, spa…) that appears in the generated text but not in the source data — plus language, price, and star-rating checks.</div>
+        </div>
+        <span class="step-badge badge-shipped">Shipped</span>
+      </div>
+      <div class="pipeline-step shipped">
+        <span class="step-num">5</span>
+        <div class="step-body">
+          <div class="step-name">Idempotent persistence</div>
+          <div class="step-desc">Results stored per (arrangement, portal) with a SHA-256 source hash and a prompt version. Unchanged offers are skipped on re-runs; a prompt version bump triggers a full re-run. Status tracked as Pending / Generated / Failed / Approved / Rejected.</div>
+        </div>
+        <span class="step-badge badge-shipped">Shipped</span>
+      </div>
+      <div class="pipeline-step concept">
+        <span class="step-num">6</span>
+        <div class="step-body">
+          <div class="step-name">Human review queue + KU sync</div>
+          <div class="step-desc">Flagging high-value hotels for editorial review before the MasterData API syncs to KU — plus a CVR dashboard comparing AI vs. human text performance. Not yet built.</div>
+        </div>
+        <span class="step-badge badge-concept">Concept</span>
+      </div>
+    </div>
+
+    <p>The batch CLI runs via <code>app:arrangement:rewrite</code> with options for batch size, dry-run, retry-failed, and single-arrangement targeting. The whole service is behind an <code>AI_REWRITING_ENABLED</code> feature flag. Full unit test suite across the orchestration service, both guards, the validator, and the provider factory.</p>
+
+    <h2>Evidence it works</h2>
+
+    <p>I ran the rewriter across 14 hotels and 161 offers, comparing OpenAI and Gemini output side by side. Two examples:</p>
+
+    <div class="example-block">
+      <div class="ex-label">Hotelferienanlage Friedrichsbrunn (Harz) — offer #70890</div>
+      <div class="ex-row">
+        <span class="ex-key">Original</span>
+        <span class="ex-val">"All inklusiv kurz und unvergesslich – 4 Tage im Harz"</span>
+      </div>
+      <div class="ex-row">
+        <span class="ex-key">OpenAI</span>
+        <span class="ex-val">"4 Tage Wellness in Thale" <em>— location moved to front, duration kept</em></span>
+      </div>
+      <div class="ex-row">
+        <span class="ex-key">Gemini</span>
+        <span class="ex-val">"Thale: 4 Tage All-Inclusive Genuss"</span>
+      </div>
+    </div>
+
+    <div class="example-block">
+      <div class="ex-label">Mövenpick Hotel Hamburg City — offer #782952</div>
+      <div class="ex-row">
+        <span class="ex-key">Original</span>
+        <span class="ex-val">"KARNEVAL SPECIAL: Kurztrip nach Hamburg | 3 Tage"</span>
+      </div>
+      <div class="ex-row">
+        <span class="ex-key">OpenAI</span>
+        <span class="ex-val">"3 Tage Hamburg: Entdecke die Stadt"</span>
+      </div>
+      <div class="ex-row">
+        <span class="ex-key">Gemini</span>
+        <span class="ex-val">"Hamburg: 3 Tage Städtereise-Special"</span>
+      </div>
+    </div>
+
+    <p>Both rewrites keep duration and city, drop verbatim phrasing from the original, and lead with the location keyword — the duplicate-content goal, met. The intro paragraphs also moved location to the front for SEO, and the amenities named in the output (sauna, pool) were ones present in the source data — the hallucination guard doing its job.</p>
+
+    <h2>My role</h2>
+
+    <p>I was the product manager who framed the problem, wrote the business case, and designed the 6-phase compound AI concept — including the cross-cutting concerns: semantic caching, the human review queue, measurement, and what legal sign-off would require under the EU AI Act. I then built the shipped backend module myself, ran the provider evaluation on real data, and wrote the unit test suite.</p>
+
+    <p>The broader program (hotel descriptions first for higher SEO impact, the review queue, the CVR dashboard) builds on this foundation. The offer-text rewriter is the working proof-of-concept it starts from.</p>
+
+  </div>
+
+</body>
+</html>
