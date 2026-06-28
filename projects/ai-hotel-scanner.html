@@ -45,7 +45,13 @@
 
     <p>The tool takes a hotel URL, crawls the main page and up to 8 relevant subpages (wellness, rooms, dining, FAQ, etc.), strips boilerplate, and sends the extracted text to Claude with a structured list of ~90 attribute types.</p>
 
+    <img class="case-image" src="../images/attribute-scanner-ui.png" alt="Attribute scanner prototype — URL input and scan results" />
+    <p class="case-image-caption">The scanning interface — enter a hotel URL, get attribute results in seconds</p>
+
     <p>Claude returns each attribute as either <strong>high confidence</strong> (explicitly mentioned, with a direct quote as evidence) or <strong>needs review</strong> (implied or ambiguous). High-confidence results could be auto-applied; the needs-review pile gets a human look. The confidence split is what makes this workflow-useful rather than just a novelty.</p>
+
+    <img class="case-image" src="../images/attribute-scanner-mockup.png" alt="How detected attributes would appear in the hotel extranet" />
+    <p class="case-image-caption">The integration vision — detected attributes pre-filled in the hotel extranet, organised by category</p>
 
     <h2>What I learned</h2>
 

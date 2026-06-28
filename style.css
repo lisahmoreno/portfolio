@@ -208,3 +208,27 @@ code {
   border-radius: 4px;
   font-family: 'SF Mono', 'Fira Code', monospace;
 }
+
+/* Case study images */
+.case-image {
+  width: 100%;
+  display: block;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  margin: 28px 0 8px;
+}
+.case-image-mobile {
+  max-width: 260px;
+  display: block;
+  margin: 28px auto 8px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(30,20,10,0.12);
+}
+.case-image-caption {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  margin-bottom: 28px;
+  font-style: italic;
+}
