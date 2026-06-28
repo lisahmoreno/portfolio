@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Finance Import Generator — Lisa Hübner Moreno</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html">Lisa Hübner Moreno</a>
+    <a href="../index.html#projects">Projects</a>
+    <a>Finance Import Generator</a>
+  </nav>
+
+  <div class="container">
+
+    <div class="project-type">Migration Tooling · Python</div>
+    <h1>Finance Import Generator</h1>
+    <p class="lede">A PM-built Python script that turns ~20–30 minutes of error-prone manual finance setup per hotel into a ten-minute batch run for a whole migration cluster — by encoding the business rules so a human doesn't have to re-derive them each time.</p>
+
+    <div class="tags">
+      <span class="tag">Python</span>
+      <span class="tag">Migration tooling</span>
+      <span class="tag">Finance / accounting</span>
+      <span class="tag">PM-built</span>
+    </div>
+    <div class="links">
+      <a class="btn btn-ghost" href="https://github.com/lisahmoreno/finance-import-generator" target="_blank">GitHub ↗</a>
+    </div>
+
+    <hr class="divider" />
+
+    <h2>The problem</h2>
+
+    <p>Every hotel migrating onto the platform needed to be set up in the accounting system across six interdependent import files — creditor accounts, supplier records, CRM company and bank data, and the creditor↔CRM mapping. Done by hand, that was ~20–30 minutes per hotel. A full migration cluster of ~20+ hotels meant hours of manual entry before a single hotel was live.</p>
+
+    <p>The manual process was also brittle. The business rules involved a GL-account matrix that varies by commercial model and country, VAT logic with three distinct cases, and import templates that reject the entire file if a single column header is wrong. Getting any of these wrong meant the import failed silently or, worse, posted to the wrong account — only noticed weeks later when finance chased a missing commission payment.</p>
+
+    <h2>What I built</h2>
+
+    <p>A Python script that takes two DB query outputs, merges them into a single input JSON, and generates all the import files in one run. The script encodes the rules that were previously re-derived by hand each time:</p>
+
+    <p><strong>GL account matrix.</strong> Which revenue and expense accounts apply depends on two axes: operator vs. broker model, and domestic vs. foreign country. The matrix is a lookup table. Some cells are intentionally blank — foreign hotels have no domestic-VAT revenue account — and that blank looks like a missing value but is correct. Getting it wrong means incorrect P&L posting that's invisible until reconciliation.</p>
+
+    <p><strong>VAT-liability logic.</strong> Three cases, each producing a different commission mode: domestic hotels are taxable, foreign hotels with a VAT-ID get reverse charge treatment, foreign hotels without one are exempt. The right mode (one of seven possible values) is derived from the same operator/country matrix.</p>
+
+    <p><strong>The <code>is_manual_usage</code> flag.</strong> Must be set to <code>1</code> on every creditor account. If unset, the accounting system silently blocks manually-triggered commission invoicing — meaning no invoice can be created for bookings at that hotel. This is the kind of invisible default that gets missed in manual entry and only surfaces when someone notices a hotel has never generated a commission payment.</p>
+
+    <p><strong>Byte-exact CSV output.</strong> The import interface rejects files that include a header row, and requires every data row to end with a literal <code>;END</code> suffix. Both are non-negotiable; the <code>write_csv_with_end()</code> function enforces them so the output is always in the right format regardless of who runs the script.</p>
+
+    <h2>Impact</h2>
+
+    <p>A full cluster goes from hours of manual entry to ~10 minutes, with the tax and account rules applied consistently instead of re-derived by hand each time. The script became the team's standard format for cluster setup — distributed as a shared, installed tool rather than a one-off.</p>
+
+    <h2>Why a PM built this</h2>
+
+    <p>The accounting team knew the rules; the bottleneck was encoding them reliably at the pace the migration required. This is a pattern that comes up often in complex operational work: the knowledge exists, the process is understood, but there's no tool that captures it — so each run requires a person to hold the whole rule set in their head and not make a mistake.</p>
+
+    <p>Building the tool isn't about automating the job away. It's about making the knowledge durable, the output consistent, and the error surface smaller. The same reasoning applies to product decisions: the goal isn't to remove the human from the loop, it's to put the human's attention where it actually matters.</p>
+
+  </div>
+
+</body>
+</html>
