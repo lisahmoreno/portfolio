@@ -18,7 +18,7 @@
 
     <div class="project-type">Prototype · AI / Automation</div>
     <h1>AI Hotel Attribute Scanner</h1>
-    <p class="lede">A prototype that crawls hotel websites and uses Claude AI to automatically detect amenities — exploring whether AI can replace a time-consuming manual content process in hospitality.</p>
+    <p class="lede">A prototype that crawls hotel websites and uses Claude AI to automatically detect amenities — built to test whether AI could cut weeks of manual content work down to minutes.</p>
 
     <div class="tags">
       <span class="tag">Claude API</span>
@@ -35,20 +35,17 @@
 
     <h2>The problem</h2>
 
-    <p>Hotel booking platforms depend on accurate attribute data — when a guest filters for "Finnish sauna" or "indoor pool", the platform needs to know which hotels actually have those things. The standard approach is asking hotels to fill in an extranet form. In practice: incomplete profiles, missed fields, and content teams spending hours manually checking hotel websites to fill the gaps.</p>
+    <p>Data showed it was taking weeks, not days, to get new hotels live on the platform. A big part of the bottleneck was attribute completion: hotels fill in their own amenities through an extranet form, and in practice many profiles were incomplete or stale. Content teams were manually checking hotel websites to fill the gaps.</p>
 
-    <p>The hypothesis: hotel websites already contain most of this information. If an AI can reliably extract structured attribute data from a crawl, you could at minimum pre-fill the form for hotels — or flag stale profiles for review.</p>
+    <p>The timing made it worse. We had just added a new layer of attributes to enable more granular search and targeting across our different websites — which made the already-tedious process even more so. Every new attribute was another field hotels had to discover and fill in, and another gap that content teams had to chase down.</p>
 
-    <div class="edit-note">
-      <strong>Add your numbers here</strong>
-      How many hotels? How often do attributes need updating? How much time does manual content review take? Concrete numbers make the problem land.
-    </div>
+    <p>The hypothesis: hotel websites already contain most of the attribute information we need. A hotel that has a Finnish sauna will almost certainly mention it somewhere. If an AI can reliably extract that data from a crawl, we could at minimum pre-fill the form for hotels, or flag stale profiles for review.</p>
 
     <h2>How it works</h2>
 
-    <p>The tool takes a hotel URL, crawls the main page and up to 8 relevant subpages (wellness, rooms, dining, FAQ, etc.), strips boilerplate, and sends the text to Claude with a structured list of ~90 attribute types.</p>
+    <p>The tool takes a hotel URL, crawls the main page and up to 8 relevant subpages (wellness, rooms, dining, FAQ, etc.), strips boilerplate, and sends the extracted text to Claude with a structured list of ~90 attribute types.</p>
 
-    <p>Claude returns each attribute as either <strong>high confidence</strong> (explicitly mentioned, with a quote as evidence) or <strong>needs review</strong> (implied or ambiguous). High-confidence results could be auto-applied; the needs-review pile gets a human look. The confidence split is what makes this workflow-useful rather than just a novelty.</p>
+    <p>Claude returns each attribute as either <strong>high confidence</strong> (explicitly mentioned, with a direct quote as evidence) or <strong>needs review</strong> (implied or ambiguous). High-confidence results could be auto-applied; the needs-review pile gets a human look. The confidence split is what makes this workflow-useful rather than just a novelty.</p>
 
     <div class="callout">
       <p>The trickiest prompt engineering: telling the AI that a wellness area <em>name</em> ("Wellness Oasis") is not evidence for specific facilities. Without that instruction, it would confidently flag a Finnish sauna just because the hotel had an evocative spa name. Getting calibration right — especially for false positives — was the main technical challenge.</p>
@@ -56,27 +53,18 @@
 
     <h2>What I learned</h2>
 
-    <p>The AI works well when hotel websites are specific. It's much weaker against marketing language — "state-of-the-art wellness facilities" tells you nothing. Which is unfortunately common. The confidence split helped: high-confidence results held up, and the needs-review pile correctly flagged the ambiguous cases.</p>
+    <p>Testing on real hotels, homepage-only scans matched around 36% of known attributes. Adding subpages (rooms, wellness, FAQ) pushed that to 58% — FAQs turned out to be especially high-signal, often the only place hotels mention things like parking, pets, or check-in language. The confidence split worked well: high-confidence results held up; the needs-review pile correctly flagged the ambiguous cases.</p>
 
-    <p>One thing "accuracy" doesn't capture: the ground truth is what the hotel <em>has</em>, not what they say on their site. Those don't always match. That gap matters more for high-stakes attributes (accessibility, allergy-friendly) and would need tighter calibration — or a permanent human-review requirement — before going to production.</p>
+    <p>The AI is much weaker against marketing language. "State-of-the-art wellness facilities" tells you nothing. That's frustratingly common. And "accuracy" doesn't fully capture the real challenge — the ground truth is what the hotel <em>has</em>, not what they say on their site, and those don't always match. High-stakes attributes (accessibility, allergy-friendly) would need tighter calibration or permanent human review before going to production.</p>
 
-    <div class="edit-note">
-      <strong>Add a concrete example here</strong>
-      Did you run it on real hotels? A specific hit or miss would make this section memorable.
-    </div>
+    <h2>What happened next</h2>
 
-    <h2>What would come next</h2>
+    <p>The prototype landed well internally. Engineering saw the potential immediately, and the Head of Hotel Contracting — who owned the onboarding problem directly — was enthusiastic about what it could mean for time-to-live.</p>
 
-    <ul>
-      <li><strong>Scale testing</strong> — does quality hold across hundreds of hotels in different languages?</li>
-      <li><strong>Change detection</strong> — the useful version monitors for when a hotel's website changes, not just a one-time scan</li>
-      <li><strong>Feedback loop</strong> — corrections from hotels or content teams should inform future scans</li>
-      <li><strong>Liability tier</strong> — accessibility and allergy attributes need stricter treatment than "pet-friendly"</li>
-    </ul>
+    <p>In the end, we made a build-versus-buy decision and went with a third-party data enrichment provider. They can enrich all of our hotel data — not just attributes — at scale and in multiple languages, which a homegrown solution would have taken much longer to match. The prototype did its job: it proved the concept was viable and gave us confidence that AI-assisted attribute extraction would work, which informed how we evaluated vendors.</p>
 
-    <div class="edit-note">
-      <strong>Internal context</strong>
-      Was there stakeholder interest in this? Engineering feedback? A related initiative it connects to? That makes it read as product thinking, not just a side project.
+    <div class="callout">
+      <p>A prototype that gets killed by a vendor decision isn't a failure — it's a faster path to the right answer. The build-vs-buy call was made with evidence rather than assumption.</p>
     </div>
 
   </div>
