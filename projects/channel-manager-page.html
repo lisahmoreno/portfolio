@@ -5,6 +5,81 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Channel Manager Page — Lisa Hübner Moreno</title>
   <link rel="stylesheet" href="../style.css" />
+  <style>
+    .research-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 20px 0 28px;
+    }
+    .research-col {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 22px;
+    }
+    .research-col .col-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .research-col ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .research-col ul li {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 300;
+      padding: 8px 0 8px 16px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      line-height: 1.6;
+    }
+    .research-col ul li:last-child { border-bottom: none; }
+    .research-col ul li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 400;
+    }
+
+    .design-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0 28px;
+      font-size: 14px;
+    }
+    .design-table th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0 16px 10px 0;
+      border-bottom: 2px solid var(--border);
+    }
+    .design-table td {
+      padding: 12px 16px 12px 0;
+      border-bottom: 1px solid var(--border);
+      color: #4A4440;
+      font-weight: 300;
+      line-height: 1.6;
+      vertical-align: top;
+    }
+    .design-table td:first-child { font-weight: 500; color: var(--text); width: 30%; }
+    .design-table tr:last-child td { border-bottom: none; }
+
+    @media (max-width: 540px) {
+      .research-cols { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
@@ -33,31 +108,67 @@
 
     <p>A channel manager is the connectivity tool a hotel uses to push its availability and rates out to all sales channels — our portals plus OTAs. For hotels that depend on it, it's not a nice-to-have; it's the mechanism that keeps their inventory live everywhere at once.</p>
 
-    <p>When the connection broke, nothing in the extranet told them. Stale availability would propagate silently across every portal. The first signal that something was wrong was usually a drop in bookings — which a hotel might not notice for days, and which account managers (KAMs) were expected to catch reactively through their own daily troubleshooting routines. A broken link was a routine part of KAM work, not an exceptional event.</p>
+    <p>When the connection broke, nothing in the extranet told them. Stale availability propagated silently across every portal. The first signal was usually a drop in bookings — which a hotel might not notice for days, and which account managers (KAMs) were expected to catch through their own daily troubleshooting routines. A broken link was a routine part of KAM work, not an exceptional event. The extranet had no surface for this at all.</p>
 
-    <p>The extranet had no surface for this at all. Hotels using a channel manager had no way to see the connection status, no way to know if something was wrong, and no way to act without calling support.</p>
+    <h2>Discovery: two user groups, two different problems</h2>
 
-    <h2>Discovery first</h2>
+    <p>Before shaping any solution, I ran discovery with two distinct user groups — KAMs and hotel partners — because what the problem looks like from each side is quite different.</p>
 
-    <p>Before shaping any solution, I ran a discovery phase with two distinct user groups — because what the problem looks like from the KAM side and what it looks like from the hotel side are quite different.</p>
+    <div class="research-cols">
+      <div class="research-col">
+        <div class="col-label">KAMs (6 interviews)</div>
+        <ul>
+          <li>Issues always arrived reactively — hotels had already noticed missing bookings before contacting support</li>
+          <li>KAMs had built informal workarounds: periodic manual checks, pattern recognition for failure modes, mental lists of "risky" hotels</li>
+          <li>The problem was well-understood internally but there was no systematic tool to support it</li>
+          <li>First-level support frequently needed to pull in engineering to diagnose — no diagnostic surface existed</li>
+        </ul>
+      </div>
+      <div class="research-col">
+        <div class="col-label">Hotel partners</div>
+        <ul>
+          <li>Most hotels didn't know what a channel manager connection failure looked like from their side</li>
+          <li>No place in the extranet to check connection status or act on it</li>
+          <li>Reliance varied significantly — some hotels rarely used the CM connection; others ran their entire availability pipeline through it</li>
+          <li>Segmenting by reliance level shaped the priority surface for the feature</li>
+        </ul>
+      </div>
+    </div>
 
-    <p><strong>KAMs</strong> were the ones absorbing the cost. Six interviews surfaced a consistent pattern: connection issues came in reactively, usually after a hotel had already noticed missing bookings. KAMs had built their own informal workarounds — periodic manual checks, recognised failure patterns, heuristics for which hotels were "risky." The problem was well-understood but there was no systematic tool to support it.</p>
-
-    <p><strong>Hotel partners</strong> had a different experience: they often didn't know what a channel manager connection failure even looked like, and they had no place to go in the extranet to check. Their reliance on the connection varied significantly — some hotels had channel managers configured but rarely used them; others had their entire availability pipeline running through the connection. Segmenting by reliance level shaped how we thought about the feature's priority surface.</p>
-
-    <p>The findings were synthesised into a shared research document before any design work started — so the designer and I were working from the same picture rather than building from separate interpretations of the same conversations.</p>
+    <p>Findings were synthesised into a shared research document before any design work started — so the designer and I were working from the same picture rather than separate interpretations of the same conversations.</p>
 
     <h2>The design concept</h2>
 
-    <p>A dedicated Channel Manager page in the hotel extranet with two things: current connection status, made visible; and proactive alerts when the connection breaks, so the hotel and KAM know immediately rather than after bookings dry up.</p>
+    <p>A dedicated Channel Manager page in the hotel extranet with two things: current connection status, made visible; and proactive alerts when the connection breaks. The shift from reactive to proactive is the core product decision — instead of waiting for a hotel to notice bookings have slowed, the system flags the issue at detection time.</p>
 
-    <p>The page needed to work for two audiences with different levels of technical understanding. A hotel partner needs to know: is my connection working right now, and if not, what do I do? A KAM needs to know: which of my hotels have issues, and can I resolve them without pulling in engineering? First-level support handling a channel manager ticket without needing to escalate was part of the intended design — the page should surface enough diagnostic information to be useful, not just a status light.</p>
+    <p>The page needed to work for three audiences with different needs:</p>
 
-    <p>The shift from reactive to proactive is the core product decision. Instead of waiting for a hotel to notice bookings have slowed, the system flags the issue at detection time. That's a fundamentally different operating model for both the hotel and the KAM.</p>
+    <table class="design-table">
+      <thead>
+        <tr>
+          <th>Audience</th>
+          <th>Question the page answers</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Hotel partner</td>
+          <td>Is my connection working right now? If not, what do I do?</td>
+        </tr>
+        <tr>
+          <td>KAM</td>
+          <td>Which of my hotels have connection issues? Can I resolve them without pulling in engineering?</td>
+        </tr>
+        <tr>
+          <td>First-level support</td>
+          <td>Is this a CM issue? Can I diagnose and close the ticket without escalating?</td>
+        </tr>
+      </tbody>
+    </table>
 
     <h2>Status and intended impact</h2>
 
-    <p>User research is complete; the page is in design and build, with live status plus logging and alerting targeted for delivery in July 2026.</p>
+    <p>User research is complete; the page is in design and build, targeted for delivery in July 2026.</p>
 
     <p>Pre-launch targets: cut issue detection from days to near-real-time; reduce channel-manager-related support load by an estimated ~30%; enable first-level support to resolve connection issues without engineering involvement. These are targets, not measured outcomes — the case study will be updated once the feature is live and data is in.</p>
 
