@@ -35,14 +35,14 @@
 
   <div class="container">
 
-    <div class="project-type">UX Research · Mockups</div>
+    <div class="project-type">UX Research · Rapid Prototyping</div>
     <h1>Children's Pricing — UX Exploration</h1>
-    <p class="lede">Turning a per-offer chore into a one-time setup — and the data analysis, product design, and change communication work that made it possible.</p>
+    <p class="lede">Four HTML mockups built fast to test a design direction and get stakeholder feedback — the output of a deep investigation into how hotels actually manage children's pricing and where the current setup was breaking down.</p>
 
     <div class="tags">
       <span class="tag">UX Design</span>
-      <span class="tag">Prototyping</span>
-      <span class="tag">Data analysis</span>
+      <span class="tag">Rapid prototyping</span>
+      <span class="tag">Stakeholder alignment</span>
       <span class="tag">B2B · Hospitality</span>
     </div>
     <div class="links">
@@ -54,24 +54,26 @@
 
     <h2>The problem</h2>
 
-    <p>In our hotel extranet, children's prices lived at the offer level. A hotel with many arrangements had to enter the same age-tier prices over and over — once per offer, every time. In practice this meant a lot of inconsistent or simply missing kids pricing across a hotel's offers, and a lot of frustration from hoteliers who couldn't see why they were being asked to repeat themselves.</p>
+    <p>In our hotel extranet, children's prices lived at the offer level. A hotel with many arrangements had to enter the same age-tier prices over and over — once per offer, every time. In practice this meant a lot of inconsistent or missing kids pricing across a hotel's offers, and a lot of hoteliers asking why they were being asked to repeat themselves.</p>
 
     <p>On top of that, the pricing model used the concept of an "Anteil" — a proportional share of the full-payer price — which confused non-expert hoteliers who just wanted to say "kids pay €15 a night" or "30% off the adult rate." The terminology was technically correct but practically opaque.</p>
 
-    <h2>The product decision: finding the right level</h2>
+    <h2>Investigation before building</h2>
 
-    <p>The core question was where in the data model children's pricing should live. The existing answer — at offer level — was causing all the pain. Most hotels set the same children's prices across all their offers; the exceptions were the minority, not the rule.</p>
+    <p>Before touching any design, I ran data analysis and expert interviews to understand the problem at depth. The data work involved cross-system analysis across two platforms with incompatible children's pricing models — different age-range representations, distinctions between 1st/2nd/3rd child that the new system didn't support, price variations by adult count that also didn't map cleanly. Getting that picture right was essential before deciding where any solution should sit in the data model.</p>
 
-    <p>The concept I designed: hotel-level defaults with per-age-tier overrides at offer level. A hotel sets its children's pricing once on a dedicated hotel page. Those prices are inherited automatically by every arrangement with "book with kids" enabled. Where a specific offer genuinely needs a different price for one age tier, it can override just that tier — the others continue to inherit. One price type per hotel (fixed € or % discount), applied consistently unless explicitly overridden.</p>
+    <p>The interviews surfaced what the data couldn't tell me: that most hotels configure the same prices across all their offers, that the "Anteil" terminology was a consistent sticking point, and that the real frustration was repetition — not complexity. Hotels weren't struggling to understand how children's pricing worked; they were struggling to understand why they had to re-enter it twenty times.</p>
 
-    <p>This inheritance-with-override model is a common pattern in B2B configuration UIs, but the design work is in the details: what "empty" means in a field that might be inheriting, how to show the user whether a price is theirs or a default, and how to handle the case where someone overrides a price but forgets to set a matching price type.</p>
+    <p>That pointed clearly at a hotel-level default: one place to set your children's prices, automatically applied everywhere, with the ability to override where a specific offer genuinely differs. Simple in principle, with a lot of detail in the edges — empty states, inheritance signalling, what happens when a hotel overrides a price but not the price type.</p>
 
-    <h2>The UX design</h2>
+    <h2>Four mockups, built fast</h2>
 
-    <p>I designed four mockups covering the four places in the UI this feature touched — not competing directions, but the full picture of what needed to change:</p>
+    <p>Once the direction was clear, the goal was to get something in front of stakeholders quickly — not a polished spec, but enough to test whether the concept was feasible and make the direction legible to people who hadn't been in the investigation.</p>
+
+    <p>I built four HTML mockups covering the full surface area the feature would touch. HTML was the right format here: faster to produce than slides, interactive enough to show states and transitions, and immediately understandable to both product and engineering without needing explanation.</p>
 
     <img class="case-image" src="../images/kinderpreise-screenshot.png" alt="Hotel kids page mockup — current state vs new state with hotel-level pricing" />
-    <p class="case-image-caption">Mockup 1: the hotel kids page — IST (current, offer-only) vs. SOLL (new hotel-level defaults with price configuration)</p>
+    <p class="case-image-caption">Mockup 1: the hotel kids page — current state vs. proposed new state with hotel-level price configuration</p>
 
     <div class="mockup-grid">
       <div class="mockup-card">
@@ -96,19 +98,11 @@
       </div>
     </div>
 
-    <p>The UX details that mattered most: an auto-calculated "full payer" row so hoteliers could sanity-check relative prices at a glance; "Kostenlos" (free) badges for zero-priced age tiers instead of a blank €0 field; a progress indicator so hotels could see how complete their setup was; and empty states with a direct CTA rather than just an empty table. The "Anteil" label was replaced with "Ermäßigung" (discount) with a one-time explainer — a small change that removed a consistent point of confusion.</p>
+    <h2>What happened next</h2>
 
-    <h2>What made it complicated</h2>
+    <p>The mockups did their job: they made the concept legible quickly, generated useful feedback from stakeholders, and confirmed the direction was worth pursuing. Once alignment was in place, I handed the work to our product designer to take it into proper design and build.</p>
 
-    <p>The feature sat on top of a live migration between two backend systems with incompatible data models. The legacy system (KU) stored children's prices by explicit age ranges (e.g. 0–5), distinguished between 1st, 2nd, and 3rd child, and tracked different prices by number of adults present. The new system (KMW) used only an upper age bound, made no distinction by child number, and had no adult-count differentiation. None of these mapped cleanly.</p>
-
-    <p>The data analysis before design was as important as the design itself. How should a "1st child 0–5: €50, 2nd child: €30" price be migrated to a system that doesn't know which child it is? Which backend should resolve the inheritance fallback — the API (recommended, so the portal notices no difference) or the portal itself (error-prone)? What does "empty = inherits from hotel" look like in a database that previously stored per-offer prices everywhere?</p>
-
-    <p>Getting those questions answered before writing specs meant the mockups could be grounded in what was actually buildable, and engineering reviews didn't surface surprises.</p>
-
-    <h2>Result</h2>
-
-    <p>Children's pricing went from a repeated per-arrangement task to a single hotel-level setup. For hotels with many arrangements, that's an estimated ~70% reduction in repetitive data entry — fewer fields to maintain, and fewer inconsistent or missing prices across their offers as a result. The change communication concept (in-app banners + changelog entries) shipped alongside the feature to make the transition legible for existing hotels without a support spike.</p>
+    <p>The estimated outcome for hotels with many arrangements: ~70% less repetitive data entry, fewer inconsistent or missing prices, and a UI that non-technical hoteliers can actually navigate — replacing a terminology-heavy model with something closer to how they think about pricing.</p>
 
   </div>
 
