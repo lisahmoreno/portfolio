@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Channel Manager Page — Lisa Hübner Moreno</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html">Lisa Hübner Moreno</a>
+    <a href="../index.html#projects">Projects</a>
+    <a>Channel Manager Page</a>
+  </nav>
+
+  <div class="container">
+
+    <div class="project-type">Research · Product Design · B2B</div>
+    <h1>Channel Manager Page</h1>
+    <p class="lede">A research-led extranet feature that makes connectivity health visible to hotels — so a broken channel manager connection is caught near-real-time, not discovered days later when bookings stop coming in.</p>
+
+    <div class="tags">
+      <span class="tag">User research</span>
+      <span class="tag">Discovery</span>
+      <span class="tag">B2B · Hospitality</span>
+      <span class="tag">Extranet</span>
+    </div>
+
+    <hr class="divider" />
+
+    <h2>The problem</h2>
+
+    <p>A channel manager is the connectivity tool a hotel uses to push its availability and rates out to all sales channels — our portals plus OTAs. For hotels that depend on it, it's not a nice-to-have; it's the mechanism that keeps their inventory live everywhere at once.</p>
+
+    <p>When the connection broke, nothing in the extranet told them. Stale availability would propagate silently across every portal. The first signal that something was wrong was usually a drop in bookings — which a hotel might not notice for days, and which account managers (KAMs) were expected to catch reactively through their own daily troubleshooting routines. A broken link was a routine part of KAM work, not an exceptional event.</p>
+
+    <p>The extranet had no surface for this at all. Hotels using a channel manager had no way to see the connection status, no way to know if something was wrong, and no way to act without calling support.</p>
+
+    <h2>Discovery first</h2>
+
+    <p>Before shaping any solution, I ran a discovery phase with two distinct user groups — because what the problem looks like from the KAM side and what it looks like from the hotel side are quite different.</p>
+
+    <p><strong>KAMs</strong> were the ones absorbing the cost. Six interviews surfaced a consistent pattern: connection issues came in reactively, usually after a hotel had already noticed missing bookings. KAMs had built their own informal workarounds — periodic manual checks, recognised failure patterns, heuristics for which hotels were "risky." The problem was well-understood but there was no systematic tool to support it.</p>
+
+    <p><strong>Hotel partners</strong> had a different experience: they often didn't know what a channel manager connection failure even looked like, and they had no place to go in the extranet to check. Their reliance on the connection varied significantly — some hotels had channel managers configured but rarely used them; others had their entire availability pipeline running through the connection. Segmenting by reliance level shaped how we thought about the feature's priority surface.</p>
+
+    <p>The findings were synthesised into a shared research document before any design work started — so the designer and I were working from the same picture rather than building from separate interpretations of the same conversations.</p>
+
+    <h2>The design concept</h2>
+
+    <p>A dedicated Channel Manager page in the hotel extranet with two things: current connection status, made visible; and proactive alerts when the connection breaks, so the hotel and KAM know immediately rather than after bookings dry up.</p>
+
+    <p>The page needed to work for two audiences with different levels of technical understanding. A hotel partner needs to know: is my connection working right now, and if not, what do I do? A KAM needs to know: which of my hotels have issues, and can I resolve them without pulling in engineering? First-level support handling a channel manager ticket without needing to escalate was part of the intended design — the page should surface enough diagnostic information to be useful, not just a status light.</p>
+
+    <p>The shift from reactive to proactive is the core product decision. Instead of waiting for a hotel to notice bookings have slowed, the system flags the issue at detection time. That's a fundamentally different operating model for both the hotel and the KAM.</p>
+
+    <h2>Status and intended impact</h2>
+
+    <p>User research is complete; the page is in design and build, with live status plus logging and alerting targeted for delivery in July 2026.</p>
+
+    <p>Pre-launch targets: cut issue detection from days to near-real-time; reduce channel-manager-related support load by an estimated ~30%; enable first-level support to resolve connection issues without engineering involvement. These are targets, not measured outcomes — the case study will be updated once the feature is live and data is in.</p>
+
+  </div>
+
+</body>
+</html>
