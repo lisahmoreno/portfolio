@@ -37,13 +37,13 @@
 
     <div class="project-type">UX Research · Mockups</div>
     <h1>Children's Pricing — UX Exploration</h1>
-    <p class="lede">Four design directions for a new feature, created to align stakeholders on approach before any engineering work began.</p>
+    <p class="lede">Turning a per-offer chore into a one-time setup — and the data analysis, product design, and change communication work that made it possible.</p>
 
     <div class="tags">
       <span class="tag">UX Design</span>
       <span class="tag">Prototyping</span>
-      <span class="tag">Stakeholder alignment</span>
-      <span class="tag">Hospitality</span>
+      <span class="tag">Data analysis</span>
+      <span class="tag">B2B · Hospitality</span>
     </div>
     <div class="links">
       <a class="btn btn-ghost" href="https://github.com/lisahmoreno/kinderpreise-prototype" target="_blank">GitHub ↗</a>
@@ -52,52 +52,62 @@
     <hr class="divider" />
 
     <h2>The problem</h2>
-    <div class="placeholder">
-      <strong>Write your own — suggested prompts:</strong>
-      What was the business or user need that prompted this feature? Who asked for it — hotels, guests, internal stakeholders? What was broken or missing about the existing setup?
-    </div>
 
-    <h2>Why mockups before specs</h2>
-    <div class="placeholder">
-      <strong>Write your own — suggested prompts:</strong>
-      Why did you make mockups instead of writing a spec first? What was the disagreement or ambiguity you were trying to resolve? Who needed to see something visual to have a useful opinion?
-    </div>
+    <p>In our hotel extranet, children's prices lived at the offer level. A hotel with many arrangements had to enter the same age-tier prices over and over — once per offer, every time. In practice this meant a lot of inconsistent or simply missing kids pricing across a hotel's offers, and a lot of frustration from hoteliers who couldn't see why they were being asked to repeat themselves.</p>
 
-    <h2>The four approaches</h2>
+    <p>On top of that, the pricing model used the concept of an "Anteil" — a proportional share of the full-payer price — which confused non-expert hoteliers who just wanted to say "kids pay €15 a night" or "30% off the adult rate." The terminology was technically correct but practically opaque.</p>
+
+    <h2>The product decision: finding the right level</h2>
+
+    <p>The core question was where in the data model children's pricing should live. The existing answer — at offer level — was causing all the pain. Most hotels set the same children's prices across all their offers; the exceptions were the minority, not the rule.</p>
+
+    <p>The concept I designed: hotel-level defaults with per-age-tier overrides at offer level. A hotel sets its children's pricing once on a dedicated hotel page. Those prices are inherited automatically by every arrangement with "book with kids" enabled. Where a specific offer genuinely needs a different price for one age tier, it can override just that tier — the others continue to inherit. One price type per hotel (fixed € or % discount), applied consistently unless explicitly overridden.</p>
+
+    <p>This inheritance-with-override model is a common pattern in B2B configuration UIs, but the design work is in the details: what "empty" means in a field that might be inheriting, how to show the user whether a price is theirs or a default, and how to handle the case where someone overrides a price but forgets to set a matching price type.</p>
+
+    <h2>The UX design</h2>
+
+    <p>I designed four mockups covering the four places in the UI this feature touched — not competing directions, but the full picture of what needed to change:</p>
+
+    <img class="case-image" src="../images/kinderpreise-screenshot.png" alt="Hotel kids page mockup — current state vs new state with hotel-level pricing" />
+    <p class="case-image-caption">Mockup 1: the hotel kids page — IST (current, offer-only) vs. SOLL (new hotel-level defaults with price configuration)</p>
+
     <div class="mockup-grid">
       <div class="mockup-card">
-        <div class="mockup-name">Dedicated page</div>
-        <div class="mockup-desc">A standalone page for managing all children's rate settings per hotel</div>
-        <a href="https://github.com/lisahmoreno/kinderpreise-prototype/blob/main/1_hotel_kids_page_mockup.html" target="_blank">View on GitHub ↗</a>
+        <div class="mockup-name">Hotel kids page</div>
+        <div class="mockup-desc">Dedicated page for setting hotel-level default prices per age tier — the new single source of truth</div>
+        <a href="https://lisahmoreno.github.io/kinderpreise-prototype/1_hotel_kids_page_mockup.html" target="_blank">View mockup ↗</a>
       </div>
       <div class="mockup-card">
-        <div class="mockup-name">Inline editor</div>
-        <div class="mockup-desc">Children's pricing embedded within the existing arrangement editor</div>
-        <a href="https://github.com/lisahmoreno/kinderpreise-prototype/blob/main/2_arrangement_editor_mockup.html" target="_blank">View on GitHub ↗</a>
+        <div class="mockup-name">Arrangement editor</div>
+        <div class="mockup-desc">How the arrangement-level editor changes: inherited prices shown as defaults, with per-tier override controls</div>
+        <a href="https://lisahmoreno.github.io/kinderpreise-prototype/2_arrangement_editor_mockup.html" target="_blank">View mockup ↗</a>
       </div>
       <div class="mockup-card">
-        <div class="mockup-name">Banner prompt</div>
-        <div class="mockup-desc">A lightweight nudge to hotels who haven't set up children's rates yet</div>
-        <a href="https://github.com/lisahmoreno/kinderpreise-prototype/blob/main/3_banner_mockups.html" target="_blank">View on GitHub ↗</a>
+        <div class="mockup-name">Nudge banners</div>
+        <div class="mockup-desc">In-app banners to prompt hotels that haven't set up a hotel default yet, and to communicate what changed for existing hotels</div>
+        <a href="https://lisahmoreno.github.io/kinderpreise-prototype/3_banner_mockups.html" target="_blank">View mockup ↗</a>
       </div>
       <div class="mockup-card">
         <div class="mockup-name">Tooltip tour</div>
-        <div class="mockup-desc">A guided walkthrough for onboarding hotels to the feature step by step</div>
-        <a href="https://github.com/lisahmoreno/kinderpreise-prototype/blob/main/4_tooltip_tour_mockup.html" target="_blank">View on GitHub ↗</a>
+        <div class="mockup-desc">A guided walkthrough for onboarding hoteliers to the new hotel-level setup flow</div>
+        <a href="https://lisahmoreno.github.io/kinderpreise-prototype/4_tooltip_tour_mockup.html" target="_blank">View mockup ↗</a>
       </div>
     </div>
 
-    <h2>How I narrowed it down</h2>
-    <div class="placeholder">
-      <strong>Write your own — suggested prompts:</strong>
-      After showing these options to stakeholders, what happened? Which approach did people gravitate toward and why? Were there constraints (technical, time, hotel behaviour) that ruled options out?
-    </div>
+    <p>The UX details that mattered most: an auto-calculated "full payer" row so hoteliers could sanity-check relative prices at a glance; "Kostenlos" (free) badges for zero-priced age tiers instead of a blank €0 field; a progress indicator so hotels could see how complete their setup was; and empty states with a direct CTA rather than just an empty table. The "Anteil" label was replaced with "Ermäßigung" (discount) with a one-time explainer — a small change that removed a consistent point of confusion.</p>
 
-    <h2>What I learned</h2>
-    <div class="placeholder">
-      <strong>Write your own — suggested prompts:</strong>
-      What surprised you about how stakeholders reacted? Did any option you expected to win get rejected? What would you do differently in a similar exploration?
-    </div>
+    <h2>What made it complicated</h2>
+
+    <p>The feature sat on top of a live migration between two backend systems with incompatible data models. The legacy system (KU) stored children's prices by explicit age ranges (e.g. 0–5), distinguished between 1st, 2nd, and 3rd child, and tracked different prices by number of adults present. The new system (KMW) used only an upper age bound, made no distinction by child number, and had no adult-count differentiation. None of these mapped cleanly.</p>
+
+    <p>The data analysis before design was as important as the design itself. How should a "1st child 0–5: €50, 2nd child: €30" price be migrated to a system that doesn't know which child it is? Which backend should resolve the inheritance fallback — the API (recommended, so the portal notices no difference) or the portal itself (error-prone)? What does "empty = inherits from hotel" look like in a database that previously stored per-offer prices everywhere?</p>
+
+    <p>Getting those questions answered before writing specs meant the mockups could be grounded in what was actually buildable, and engineering reviews didn't surface surprises.</p>
+
+    <h2>Result</h2>
+
+    <p>Children's pricing went from a repeated per-arrangement task to a single hotel-level setup. For hotels with many arrangements, that's an estimated ~70% reduction in repetitive data entry — fewer fields to maintain, and fewer inconsistent or missing prices across their offers as a result. The change communication concept (in-app banners + changelog entries) shipped alongside the feature to make the transition legible for existing hotels without a support spike.</p>
 
   </div>
 
