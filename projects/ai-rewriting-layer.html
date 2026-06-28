@@ -123,14 +123,14 @@
 
     <div class="project-type">AI Engineering · SEO · Content at Scale</div>
     <h1>AI Rewriting Layer — Duplicate-Content Avoidance</h1>
-    <p class="lede">After a platform migration left two consumer portals serving identical offer texts, Google started treating them as duplicate content. I designed the fix and built it — a compound AI backend service that automatically rewrites content to make it unique, with guard layers to prevent hallucination and a swappable provider layer so the model is a config change, not a code change.</p>
+    <p class="lede">After a platform migration left two consumer portals serving identical offer texts, Google started treating them as duplicate content. I designed the fix and built the founding module — a compound AI backend service that automatically rewrites content to make it unique, with guard layers to prevent hallucination and a swappable provider layer so the model is a config change, not a code change. Working prototype on a feature branch; a developer later extended it.</p>
 
     <div class="tags">
       <span class="tag">PHP · Symfony</span>
       <span class="tag">Multi-provider AI</span>
       <span class="tag">SEO</span>
       <span class="tag">Compound AI</span>
-      <span class="tag">Shipped</span>
+      <span class="tag">Prototype</span>
     </div>
     <div class="links">
       <a class="btn" href="https://github.com/lisahmoreno/ai-rewriting-layer" target="_blank">GitHub ↗</a>
@@ -146,7 +146,7 @@
 
     <h2>What I built</h2>
 
-    <p>A compound AI backend service in PHP/Symfony — not a script that calls an LLM. The shipped slice rewrites offer texts (title + intro paragraph) for the KU portal.</p>
+    <p>A compound AI backend service in PHP/Symfony — not a script that calls an LLM. The founding module rewrites offer texts (title + intro paragraph) for the KU portal. A developer subsequently extended the branch with a GraphQL API, admin review UI, and Twig-templated prompts; the architecture below covers my commits.</p>
 
     <div class="pipeline">
       <div class="pipeline-step shipped">
@@ -241,9 +241,11 @@
 
     <h2>My role</h2>
 
-    <p>I was the product manager who framed the problem, wrote the business case, and designed the 6-phase compound AI concept — including the cross-cutting concerns: semantic caching, the human review queue, measurement, and what legal sign-off would require under the EU AI Act. I then built the shipped backend module myself, ran the provider evaluation on real data, and wrote the unit test suite.</p>
+    <p>I owned the concept — problem framing, business case, the 6-phase compound AI architecture, and the cross-cutting concerns (semantic cache, human review queue, measurement, EU AI Act / GDPR-AVV implications). I then built the founding backend module myself: the initial commit that created the service, the provider layer, both guards, the validator, the entity + migration, the CLI command, and the unit test suite. I also owned the prompt and guard design — the SEO rules, the no-prices / no-invented-features constraints, the hallucination check logic — and ran the provider A/B evaluation on real data.</p>
 
-    <p>The broader program (hotel descriptions first for higher SEO impact, the review queue, the CVR dashboard) builds on this foundation. The offer-text rewriter is the working proof-of-concept it starts from.</p>
+    <p>A developer subsequently extended the branch: a GraphQL API and admin comparison view, externalising prompts into Twig templates with content-hash versioning, prompt-injection/XSS prevention, a service refactor, and an approve/reject review workflow. Of the commits on the branch, the founding module and prompt work are mine; the hardening and UI extension are the developer's.</p>
+
+    <p>Status: working prototype on a feature branch. Not merged to main or deployed to production. The broader program (hotel descriptions first for higher SEO impact, the review queue, the CVR dashboard) builds on this foundation.</p>
 
   </div>
 

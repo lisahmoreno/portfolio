@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bonus → Inclusive Migration — Lisa Hübner Moreno</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .mapping-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0 28px;
+      font-size: 14px;
+    }
+    .mapping-table th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0 16px 10px 0;
+      border-bottom: 2px solid var(--border);
+    }
+    .mapping-table td {
+      padding: 11px 16px 11px 0;
+      border-bottom: 1px solid var(--border);
+      color: #4A4440;
+      font-weight: 300;
+      line-height: 1.55;
+      vertical-align: top;
+    }
+    .mapping-table td:first-child { font-weight: 500; color: var(--text); width: 38%; }
+    .mapping-table tr:last-child td { border-bottom: none; }
+
+    .action-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 20px;
+      white-space: nowrap;
+      margin-bottom: 4px;
+    }
+    .badge-migrate { background: #D1FAE5; color: #1A6645; }
+    .badge-attr    { background: #DBEAFE; color: #1E40AF; }
+    .badge-drop    { background: #F0EBE3; color: #6B6560; }
+
+    .dedup-example {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 22px;
+      margin: 16px 0 28px;
+      font-size: 13px;
+    }
+    .dedup-example .de-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .dedup-example .de-row {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 6px 14px;
+      margin-bottom: 6px;
+      align-items: baseline;
+    }
+    .dedup-example .de-row:last-child { margin-bottom: 0; }
+    .dedup-example .de-key {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .dedup-example .de-val {
+      color: var(--text);
+      font-weight: 300;
+      line-height: 1.55;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html">Lisa Hübner Moreno</a>
+    <a href="../index.html#projects">Projects</a>
+    <a>Bonus → Inclusive Migration</a>
+  </nav>
+
+  <div class="container">
+
+    <div class="project-type">Data Analysis · Platform Migration · B2B</div>
+    <h1>Bonusleistungen → Inklusivleistungen Migration</h1>
+    <p class="lede">A catalogue-wide data analysis that turned a "migrate everything" instinct into a three-way routing decision — so 29 standardised perks landed in the right place in the new data model, with dedup logic to prevent thousands of offers gaining duplicate entries.</p>
+
+    <div class="tags">
+      <span class="tag">Data analysis</span>
+      <span class="tag">Migration</span>
+      <span class="tag">B2B · Hospitality</span>
+      <span class="tag">Shipped</span>
+    </div>
+
+    <hr class="divider" />
+
+    <h2>The problem</h2>
+
+    <p>The legacy system stored two overlapping kinds of offer text. <strong>Bonusleistungen</strong> were standardised dropdown perks — around 29 predefined options like Sauna, Welcome Drink, WLAN, Parkplatz. <strong>Inklusivleistungen</strong> were free-text "what's included" lines, written by hand per offer. In practice, hotels used both: they'd pick Sauna from the dropdown and also write "Sauna" into the free text.</p>
+
+    <p>Migrating the dropdown perks into the new KMW inclusives model naïvely would create duplicate entries on thousands of offers — "Sauna" as a migrated inclusive and "Sauna" already in the free text sitting alongside it. It would also bring the long tail of rarely-used perks into the new system, where they'd clutter the data model without adding value.</p>
+
+    <h2>The analysis</h2>
+
+    <p>I worked through the full offer dataset (~22 MB export, all offers in the catalogue) and did two things:</p>
+
+    <p>First, semantic overlap detection: for each of the 29 Bonusleistungen, I identified where the same perk was already written into the free-text Inklusivleistungen on the same offer — to understand where a naive migration would create duplicates, and what keywords would reliably catch it.</p>
+
+    <p>Second, per-perk usage analysis: how many offers actually used each Bonusleistung across the whole catalogue. Usage ranged from around 3.6% for common perks down to well under 1% for the long tail — which made the case for dropping the low-value ones rather than carrying them forward.</p>
+
+    <h2>The mapping decision</h2>
+
+    <p>The analysis turned into a three-way routing for all 29 perks:</p>
+
+    <table class="mapping-table">
+      <thead>
+        <tr>
+          <th>Action</th>
+          <th>Count</th>
+          <th>Rule</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="action-badge badge-migrate">→ Inclusive</span></td>
+          <td>16</td>
+          <td>Migrate as an ArrangementInclusive, each with dedup keywords so it's skipped when the offer's free text already mentions it</td>
+        </tr>
+        <tr>
+          <td><span class="action-badge badge-attr">→ Hotel attribute</span></td>
+          <td>2</td>
+          <td>WLAN and Parkplatz become hotel-level attributes, not per-offer inclusives — they're hotel-wide facts, not offer-specific perks</td>
+        </tr>
+        <tr>
+          <td><span class="action-badge badge-drop">→ Drop</span></td>
+          <td>11</td>
+          <td>Dropped — under 4% catalogue usage, or obsolete (e.g. public internet terminal). Each annotated with the reason</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>The WLAN/Parkplatz decision was the one that required the most explanation internally: hotels had been entering these as per-offer perks, but they're not properties of an offer — they're properties of the hotel. Moving them to the hotel attribute layer meant the data ended up in the right place, even though it changed where hoteliers would manage them going forward.</p>
+
+    <h2>Dedup logic</h2>
+
+    <p>The 16 perks that migrated each came with a set of dedup keywords. The persistence logic checks these at migration time: a new inclusive is only added if none of its keywords already appear in that offer's existing free-text inclusives. If they do, the migrated entry is skipped.</p>
+
+    <div class="dedup-example">
+      <div class="de-label">Example — Wellness perk</div>
+      <div class="de-row">
+        <span class="de-key">Perk</span>
+        <span class="de-val">Wellness</span>
+      </div>
+      <div class="de-row">
+        <span class="de-key">Dedup keywords</span>
+        <span class="de-val">Wellness · Vital · Erholung · Relax · Schwimmbad</span>
+      </div>
+      <div class="de-row">
+        <span class="de-key">Result</span>
+        <span class="de-val">If any of these already appear in the offer's Inklusivleistungen, the migrated "Wellness" inclusive is skipped — preventing duplication at scale</span>
+      </div>
+    </div>
+
+    <p>Choosing the right keyword set for each perk was the detail work: broad enough to catch real overlaps, specific enough not to skip perks where the overlap is only superficial.</p>
+
+    <h2>Outcome and my role</h2>
+
+    <p>The mapping decision shipped as part of the platform migration (ticket HEX-1049), implemented by engineering and merged to the default branch. The outcome: a clean migration of standardised perks into the new model, without duplicating existing free-text inclusives and without carrying the low-value long tail — driven by usage data rather than migrating blindly.</p>
+
+    <p>My contribution was the analysis and the mapping decision: which perks migrate, which become hotel attributes, which are dropped, and the dedup-keyword strategy for each. The code was written by engineering — this is a data/product piece, not code I shipped.</p>
+
+  </div>
+
+</body>
+</html>
