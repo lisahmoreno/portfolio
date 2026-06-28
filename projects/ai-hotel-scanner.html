@@ -47,10 +47,6 @@
 
     <p>Claude returns each attribute as either <strong>high confidence</strong> (explicitly mentioned, with a direct quote as evidence) or <strong>needs review</strong> (implied or ambiguous). High-confidence results could be auto-applied; the needs-review pile gets a human look. The confidence split is what makes this workflow-useful rather than just a novelty.</p>
 
-    <div class="callout">
-      <p>The trickiest prompt engineering: telling the AI that a wellness area <em>name</em> ("Wellness Oasis") is not evidence for specific facilities. Without that instruction, it would confidently flag a Finnish sauna just because the hotel had an evocative spa name. Getting calibration right — especially for false positives — was the main technical challenge.</p>
-    </div>
-
     <h2>What I learned</h2>
 
     <p>Testing on real hotels, homepage-only scans matched around 36% of known attributes. Adding subpages (rooms, wellness, FAQ) pushed that to 58% — FAQs turned out to be especially high-signal, often the only place hotels mention things like parking, pets, or check-in language. The confidence split worked well: high-confidence results held up; the needs-review pile correctly flagged the ambiguous cases.</p>
@@ -61,11 +57,7 @@
 
     <p>The prototype landed well internally. Engineering saw the potential immediately, and the Head of Hotel Contracting — who owned the onboarding problem directly — was enthusiastic about what it could mean for time-to-live.</p>
 
-    <p>In the end, we made a build-versus-buy decision and went with a third-party data enrichment provider. They can enrich all of our hotel data — not just attributes — at scale and in multiple languages, which a homegrown solution would have taken much longer to match. The prototype did its job: it proved the concept was viable and gave us confidence that AI-assisted attribute extraction would work, which informed how we evaluated vendors.</p>
-
-    <div class="callout">
-      <p>A prototype that gets killed by a vendor decision isn't a failure — it's a faster path to the right answer. The build-vs-buy call was made with evidence rather than assumption.</p>
-    </div>
+    <p>In the end, we made a build-versus-buy decision and went with a third-party data enrichment provider. They can enrich all of our hotel data — not just attributes — at scale and in multiple languages, which a homegrown solution would have taken much longer to match. The prototype did its job: it proved the concept was viable and gave us confidence that AI-assisted attribute extraction would work, which informed how we evaluated vendors. A prototype that gets replaced by a vendor decision isn't a failure — it's a faster path to the right answer.</p>
 
   </div>
 
