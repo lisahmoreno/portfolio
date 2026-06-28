@@ -21,6 +21,7 @@
       color: var(--text);
     }
     .skill-block p { margin-bottom: 0; }
+    .skill-block p + p { margin-top: 10px; }
   </style>
 </head>
 <body>
@@ -35,7 +36,7 @@
 
     <div class="project-type">Tooling · AI Workflows</div>
     <h1>Claude Code Skills — PM Workflow Automation</h1>
-    <p class="lede">Custom slash commands that encode repeatable PM workflows into AI-assisted processes with built-in guardrails.</p>
+    <p class="lede">Custom slash commands and tools that encode repeatable PM workflows into AI-assisted processes with built-in guardrails.</p>
 
     <div class="tags">
       <span class="tag">AI Tooling</span>
@@ -50,38 +51,48 @@
     <hr class="divider" />
 
     <h2>What is a Claude Code skill?</h2>
-    <p>Claude Code is a terminal-based AI coding assistant. Skills are custom slash commands defined in Markdown files that give Claude a specific workflow to follow — like a playbook you can invoke on demand. When you type <code>/research-spec</code>, Claude reads the skill file and runs its multi-phase process automatically.</p>
-    <p>This is interesting from a PM perspective because it's essentially encoding process design into a tool — the same way you'd document a process for a team, except the "team member" is an AI that will follow it consistently.</p>
 
-    <h2>The two skills</h2>
+    <p>Claude Code is a terminal-based AI coding assistant. Skills are custom slash commands defined in Markdown files that give Claude a specific workflow to follow — like a playbook you can invoke on demand. When you type <code>/research-spec</code>, Claude reads the skill file and runs its multi-phase process automatically.</p>
+
+    <p>The interesting thing from a PM perspective: this is essentially encoding process design into a tool. The same discipline you'd use to document a team workflow, except the "team member" follows it consistently every time and doesn't skip steps when under pressure.</p>
+
+    <h2>The skills</h2>
 
     <div class="skill-block">
       <h3>/research-spec</h3>
-      <p>A multi-phase workflow for technical investigations that enforces a self-review gate before publishing anything externally (Confluence, Slack, etc.). Every claim needs a source citation. Every section gets a confidence score. The AI cannot publish until it has reviewed its own output against a checklist.</p>
+      <p>A six-phase workflow for technical investigations and mapping work. The core constraint: no writing to external systems (Confluence, Slack, knowledge bases) until a mandatory self-review phase has completed. Every factual claim in the output must have a source citation attached. Every section gets a confidence score. Sections under 80% confidence are flagged, not silently passed through.</p>
+      <p>After self-review, there's a single approval gate — a consolidated handoff with all local drafts, an uncertainty list, and a clear "what I will publish next." Only after explicit sign-off do external writes happen. This eliminates the pattern of publishing a v1 and then spending two days fixing it in-place with stakeholders watching.</p>
     </div>
 
     <div class="skill-block">
       <h3>/stakeholder-update</h3>
-      <p>A writing assistant for stakeholder communications. Applies the Pyramid Principle — lead with the key message, support with 2–5 points, add detail only where necessary. Enforces a direct, non-defensive tone and explicitly forbids common AI filler phrases.</p>
+      <p>A writing assistant for stakeholder communications. Applies the Pyramid Principle — the key message or decision comes first, supported by 2–5 points, with detail only where necessary. The skill explicitly forbids common AI failure modes: chronological "first we did X, then Y" narratives, defensive or hedge-y language, and filler phrases that waste the reader's first sentence.</p>
+      <p>The output format is opinionated: direct opening, numbered points with brief context, a question at the end that invites a response rather than closing the loop. In German by default, since most of my stakeholder communications are internal and German-speaking.</p>
+    </div>
+
+    <div class="skill-block">
+      <h3>Slack Channel Admin MCP Server</h3>
+      <p>A small Python MCP (Model Context Protocol) server that exposes Slack channel admin operations as Claude tools: create channels, invite users, set topic and purpose, rename, and archive. It covers the Slack admin operations that aren't in existing MCP servers — specifically the ones needed when setting up a new workstream (create channel → set topic → set purpose → invite team) as a single automated flow rather than six manual steps.</p>
+      <p>This connects to the research-spec skill, which calls these Slack tools as part of its publish phase when a new workstream requires a dedicated channel.</p>
     </div>
 
     <h2>Why I built these</h2>
-    <div class="placeholder">
-      <strong>Write your own — suggested prompts:</strong>
-      What specific incident or frustration prompted the research-spec skill? (Mention the Confluence incident if you want — it's a good concrete story.) What was the communication problem the stakeholder-update skill was solving? How long were you using Claude Code before you realised you could extend it this way?
-    </div>
+
+    <p>The research-spec skill came directly from a failure. I published a technical mapping document to Confluence that turned out to have five errors — wrong field names, one outdated assumption, two claims without sources. They were caught only after publishing, which meant a round of corrections in a shared document while stakeholders had already read it. The self-review phase in the skill is a direct encoding of the checklist I should have run before hitting publish. The approval gate exists because the most reliable way to catch that kind of error is a forced pause before external writes.</p>
+
+    <p>The stakeholder-update skill came from noticing that AI-generated communications, even when prompted well, tend to bury the key message in paragraph two. They start with context, build to the point, and end with a hedged offer to discuss. That's the opposite of how a busy stakeholder reads. The skill enforces the structure at the template level rather than hoping the prompt is right each time.</p>
+
+    <p>The Slack MCP server came from the research-spec workflow needing to create channels as part of setting up new workstreams — and finding that the available Slack MCP integrations didn't cover the specific admin operations I needed.</p>
 
     <h2>What this shows about how I work</h2>
-    <div class="placeholder">
-      <strong>Write your own — suggested prompts:</strong>
-      What does building this kind of tooling say about how you think about process? Do you see encoding workflow into tools as a PM skill? What's the connection between designing good product workflows for users and designing good AI workflows for yourself?
-    </div>
 
-    <h2>What's interesting about it as a technique</h2>
-    <div class="placeholder">
-      <strong>Write your own — suggested prompts:</strong>
-      What's the difference between prompting an AI ad hoc vs encoding that prompt into a skill? What are the limits — when does a skill become too rigid? What would you build next if you kept going with this approach?
-    </div>
+    <p>The pattern across all three is the same: find a recurring workflow that has a known failure mode, encode the correct version into a tool, and stop making the same mistake manually. This is the same discipline as designing a good product workflow — you figure out where users go wrong, and you make the correct path easier than the wrong one. The difference is the target is my own work, not a user's.</p>
+
+    <p>There's also something interesting about what it means to "document" a process this way. A skill file is simultaneously a process document and a runnable specification. The act of writing it forces you to be precise about what "done" means at each step — which is harder than it looks, and more useful than a Confluence page that nobody runs against anything.</p>
+
+    <h2>Limits of the approach</h2>
+
+    <p>Skills work well for workflows that are genuinely repeatable and where the steps are known in advance. They're not useful for exploratory work where the path depends on what you find. A skill that's too rigid becomes a constraint rather than a guardrail — you spend more time working around it than it saves. The right granularity is: encode the structure and the checkpoints, leave the content decisions to the AI and the person running it.</p>
 
   </div>
 

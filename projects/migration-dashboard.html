@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Migration Dashboard — Lisa Hübner Moreno</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html">Lisa Hübner Moreno</a>
+    <a href="../index.html#projects">Projects</a>
+    <a>Migration Dashboard</a>
+  </nav>
+
+  <div class="container">
+
+    <div class="project-type">Internal Tool · Python / Streamlit</div>
+    <h1>Migration Progress Dashboard</h1>
+    <p class="lede">A real-time dashboard for tracking a large hotel platform migration — so leadership could see progress, cluster milestones, and whether we were on track without querying a database.</p>
+
+    <div class="tags">
+      <span class="tag">Python</span>
+      <span class="tag">Streamlit</span>
+      <span class="tag">Internal tooling</span>
+      <span class="tag">Data visualisation</span>
+    </div>
+    <div class="links">
+      <a class="btn btn-ghost" href="https://github.com/lisahmoreno/migration-dashboard" target="_blank">GitHub ↗</a>
+    </div>
+
+    <hr class="divider" />
+
+    <h2>The context</h2>
+
+    <p>We were migrating a large number of hotels from a legacy platform to a new one — not all at once, but in sequential waves called clusters. Each cluster had a target date and a hotel count. The migration ran over months.</p>
+
+    <p>The problem with a multi-month migration is that visibility degrades fast. Engineering has the database. Everyone else asks Engineering. Spreadsheets appear and go stale. Leadership asks for status in meetings and gets rough estimates. The migration itself is fine; the communication overhead around it isn't.</p>
+
+    <p>What was missing was a single place where anyone could answer the question: how many hotels have migrated, which cluster are we in, and are we ahead or behind?</p>
+
+    <h2>What I built</h2>
+
+    <p>A Streamlit dashboard with three sections:</p>
+
+    <p><strong>Headline progress.</strong> A large counter showing hotels migrated vs. the total goal, with a percentage. Below it, a progress bar — but not a plain bar. Each cluster milestone is marked on it, so you can see at a glance where each wave's target falls relative to overall completion. Four metrics below that: migrated count, next cluster target, days until that target, and remaining hotels. The days counter turns red when overdue.</p>
+
+    <p><strong>Cluster roadmap.</strong> A timeline view of every cluster with its status (active/done/planned), hotel count, target week, and a per-cluster progress bar. Active clusters show days remaining or days overdue. The roadmap data comes from a JSON file that's easy to update as timelines shift.</p>
+
+    <p><strong>Migration timeline.</strong> A line chart overlaying actual migration progress against the projected roadmap trajectory — so you can see immediately if actuals are running ahead, behind, or in line with plan.</p>
+
+    <h2>Why Streamlit, not a proper frontend</h2>
+
+    <p>This is internal tooling for a time-bounded project. The migration will end; the dashboard's job is done when it does. Streamlit let me build something functional in a day — styled, auto-refreshing, with charts — that would have taken weeks to build as a proper React app with a backend.</p>
+
+    <p>The dashboard runs in two modes: live database queries when credentials are configured, and CSV fallback for demos or when running locally without DB access. The CSV mode is what the portfolio version uses. That dual-mode design also means the dashboard always works in a demo or status meeting, even if the DB connection is unavailable.</p>
+
+    <h2>What it shows about internal tooling</h2>
+
+    <p>The temptation with internal tools is to either skip them entirely ("Engineering has the data") or over-engineer them ("let's build a proper product"). Neither is right. A migration of this scale genuinely needs a shared source of truth — not as a product, but as a lightweight operational artefact that serves its purpose and gets retired.</p>
+
+    <p>The PM skill here is recognising when something simple and shipped beats something robust and never finished, and knowing how to build it fast enough that it's useful before the thing it's tracking is over.</p>
+
+  </div>
+
+</body>
+</html>
