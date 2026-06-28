@@ -49,6 +49,61 @@
       font-weight: 400;
     }
 
+    .quote-block {
+      border-left: 3px solid var(--accent);
+      padding: 14px 20px;
+      margin: 20px 0;
+      background: var(--surface);
+      border-radius: 0 8px 8px 0;
+    }
+    .quote-block p {
+      font-size: 15px;
+      font-style: italic;
+      color: var(--text);
+      margin: 0 0 6px;
+      line-height: 1.65;
+    }
+    .quote-block cite {
+      font-size: 12px;
+      color: var(--muted);
+      font-style: normal;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+
+    .archetype-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 20px 0 28px;
+    }
+    .archetype-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      background: var(--surface);
+    }
+    .archetype-card .arch-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .archetype-card .arch-name {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    .archetype-card .arch-desc {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
     .design-table {
       width: 100%;
       border-collapse: collapse;
@@ -78,6 +133,7 @@
 
     @media (max-width: 540px) {
       .research-cols { grid-template-columns: 1fr; }
+      .archetype-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -112,7 +168,7 @@
 
     <h2>Discovery: two user groups, two different problems</h2>
 
-    <p>Before shaping any solution, I ran discovery with two distinct user groups — KAMs and hotel partners — because what the problem looks like from each side is quite different.</p>
+    <p>I ran 13 interviews across two rounds (March–June 2026) — 7 hotel partners and 6 KAMs — before any design work started. The two groups had structurally different versions of the same problem.</p>
 
     <div class="research-cols">
       <div class="research-col">
@@ -120,28 +176,85 @@
         <ul>
           <li>Issues always arrived reactively — hotels had already noticed missing bookings before contacting support</li>
           <li>KAMs had built informal workarounds: periodic manual checks, pattern recognition for failure modes, mental lists of "risky" hotels</li>
-          <li>The problem was well-understood internally but there was no systematic tool to support it</li>
-          <li>First-level support frequently needed to pull in engineering to diagnose — no diagnostic surface existed</li>
+          <li>No systematic tool existed — each KAM managed 200–380 hotels, ~80% using a CM connection</li>
+          <li>First-level support frequently needed engineering to diagnose — no diagnostic surface existed</li>
+          <li>Unanimous on cross-hotel visibility: 6/6 identified it as a top need (Tableau sunset made this urgent)</li>
         </ul>
       </div>
       <div class="research-col">
-        <div class="col-label">Hotel partners</div>
+        <div class="col-label">Hotel partners (7 interviews)</div>
         <ul>
-          <li>Most hotels didn't know what a channel manager connection failure looked like from their side</li>
-          <li>No place in the extranet to check connection status or act on it</li>
-          <li>Reliance varied significantly — some hotels rarely used the CM connection; others ran their entire availability pipeline through it</li>
-          <li>Segmenting by reliance level shaped the priority surface for the feature</li>
+          <li>Core asymmetry: the CM shows green on the hotel's side while nothing is arriving at Getaway — hotels had no way to know</li>
+          <li>Errors when they appeared were opaque: "transfer error" with no specificity on room type, date, or cause</li>
+          <li>Mapping failures could go unnoticed for days — one hotel ran 6–7 days without live inventory before catching it themselves</li>
+          <li>Reliance varied significantly — from family-run properties that "trust the system" to technical chain managers who wanted raw XML access</li>
         </ul>
       </div>
     </div>
 
-    <p>Findings were synthesised into a shared research document before any design work started — so the designer and I were working from the same picture rather than separate interpretations of the same conversations.</p>
+    <h3>What we heard</h3>
+
+    <div class="quote-block">
+      <p>"The CM shows all green, but nothing arrives at your end."</p>
+      <cite>HP 4 — Technical chain manager, on the core visibility gap</cite>
+    </div>
+
+    <div class="quote-block">
+      <p>"Terrible that nobody notices." — A Silvester availability block went undetected for months.</p>
+      <cite>HP 9 — External sales agency managing ~20 hotels</cite>
+    </div>
+
+    <div class="quote-block">
+      <p>"€999 live on sale and I can't see it."</p>
+      <cite>HP 3 — Reservations manager, on backup prices silently going live</cite>
+    </div>
+
+    <div class="quote-block">
+      <p>"'Transfer error' is a very broad term — it could mean anything."</p>
+      <cite>HP 9 — On error message quality</cite>
+    </div>
+
+    <div class="quote-block">
+      <p>"I can't go into every property every day — I need it at chain level."</p>
+      <cite>HP 10 — Multi-property chain manager, on the need for a cross-hotel overview</cite>
+    </div>
+
+    <h3>Four hotel archetypes</h3>
+
+    <p>The hotel partner sample wasn't uniform — we identified four distinct archetypes with meaningfully different needs. This shaped the progressive disclosure approach in design: a single UI couldn't serve all four.</p>
+
+    <div class="archetype-grid">
+      <div class="archetype-card">
+        <div class="arch-label">HP-Light</div>
+        <div class="arch-name">Family-run, owner-operated</div>
+        <div class="arch-desc">"We trust the system." Low diagnostic need. Wants simple status, plain language — not technical detail.</div>
+      </div>
+      <div class="archetype-card">
+        <div class="arch-label">HP-Mid</div>
+        <div class="arch-name">Online / reservations roles</div>
+        <div class="arch-desc">Bookings not arriving at PMS; backup prices going live. Needs clear alerts and actionable next steps. Prototype was "self-explanatory" on first view.</div>
+      </div>
+      <div class="archetype-card">
+        <div class="arch-label">HP-Power</div>
+        <div class="arch-name">Technical chain managers</div>
+        <div class="arch-desc">Wants depth: filters, re-push controls, XML/raw data access, ability to self-diagnose. Multi-property overview essential.</div>
+      </div>
+      <div class="archetype-card">
+        <div class="arch-label">Handling Agent</div>
+        <div class="arch-name">External sales agency</div>
+        <div class="arch-desc">Manages ~20 hotels on behalf of owners. Wants restricted edit rights for hotel staff, audit log ("who changed what"), and clear-text errors — not XML.</div>
+      </div>
+    </div>
+
+    <p>One finding validated a design risk we'd flagged in v1: we weren't sure whether limiting hotel-side editing permissions would feel paternalistic. By v2, a power-user hotel partner (HP 9) actively confirmed they <em>want</em> those restrictions — hotel staff breaking CM settings was a known pain point, not a hypothetical. The role model went from "possible paternalism" to "HP-requested."</p>
 
     <h2>The design concept</h2>
 
     <p>A dedicated Channel Manager page in the hotel extranet with two things: current connection status, made visible; and proactive alerts when the connection breaks. The shift from reactive to proactive is the core product decision — instead of waiting for a hotel to notice bookings have slowed, the system flags the issue at detection time.</p>
 
-    <p>The page needed to work for three audiences with different needs:</p>
+    <p>Research confirmed progressive disclosure as the right structural approach: a clean default view for HP-Light and HP-Mid, with opt-in depth (technical error detail, XML toggle, per-room-category breakdown) for HP-Power. A single dense view would have worked for nobody.</p>
+
+    <p>The page needed to answer different questions for three audiences:</p>
 
     <table class="design-table">
       <thead>
@@ -153,11 +266,11 @@
       <tbody>
         <tr>
           <td>Hotel partner</td>
-          <td>Is my connection working right now? If not, what do I do?</td>
+          <td>Is my connection working right now? If not, what specifically broke — which room type, which date — and what do I do?</td>
         </tr>
         <tr>
           <td>KAM</td>
-          <td>Which of my hotels have connection issues? Can I resolve them without pulling in engineering?</td>
+          <td>Which of my hotels have connection issues right now? Can I resolve them without engineering?</td>
         </tr>
         <tr>
           <td>First-level support</td>
@@ -165,6 +278,8 @@
         </tr>
       </tbody>
     </table>
+
+    <p>Error messaging was a specific design target: research found that "transfer error" — the existing message — was meaningless to anyone trying to act on it. The design specifies errors at arrangement + room category + date level, with plain-language descriptions and sender/receiver attribution. XML detail is available as a toggle for power users, not the default.</p>
 
     <h2>Status and intended impact</h2>
 
